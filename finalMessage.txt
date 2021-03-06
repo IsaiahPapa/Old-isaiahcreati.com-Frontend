@@ -1,0 +1,8 @@
+Well, its sad to see it go, but im happy there is a new home for the site at the "bot" subdomain. The react frontend is super sick, and easy to develop.
+I wanted to upload this repo because I spent around a year working on this. Most of this was learning.
+The website was not even suposed to be put into production, people just started using it, then more, then more, then more.
+It was really just fixing stability stuff 24/7 but I learned a LOT with pushing it to production.
+All this stuff helped me rewrite everything in react, and redid the backend in nodejs/typscript.
+
+GGS, it as fun. 
+onto better avenues. Nah fr fr I just wanna rewrite this in react and put up a real page. 
