@@ -1,0 +1,230 @@
+<script>
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".username div a").filter(function() {
+                //console.log($(this).text().toLowerCase().indexOf(value));
+            $(this).closest(".item").toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+</script>
+<style>
+    .item{
+        display:flex;
+        margin:5px;
+        align-items: center;
+        background-color:#242424;
+        height: 45px;
+
+        list-style: none;
+        border: 1px solid black;
+    }
+    .position{
+        display:flex;
+        flex-basis: 0;
+        margin: 5px;
+    }
+    .position > div{
+        display: flex;
+        margin: auto;
+        height: 30px;
+        width: 30px;
+    }
+    .position > div > a{
+        margin:auto;
+        color: #7d7d7d;
+    }
+    .image{
+        display:flex;
+        flex-basis: 0;
+        width:35px;
+        margin:5px;
+    }
+    .image > div{
+        width: 35px;
+        height: 35px;
+        margin: auto;
+        background-image: url(https://static-cdn.jtvnw.net/user-default-pictures-uv/ebb84563-db81-4b9c-8940-64ed33ccfc7b-profile_image-70x70.png);
+        border-radius: 50%;
+        background-size: contain;
+    }
+    .username{
+        flex-grow:1;
+        margin: 5px;
+        text-transform: capitalize;
+    }
+    .coins{
+        width:100px;
+        flex-grow:0;
+    }
+    .username > div{
+
+        overflow: hidden;
+        max-width: 14ch;
+        text-overflow: ellipsis;
+    }
+    .coins > div {
+        text-align: right;
+        font-weight: 300;
+        padding-right: 15px;
+    }
+
+    .one{
+        background-color: #1477dda6;
+        height: 60px;
+    }
+    .one .image {
+        width: 50px;
+    }
+    .one .image div{
+        width: 50px;
+        height: 50px;
+    }
+    .two{
+        /*background-color: #5b5b5b;*/
+        height: 55px;
+    }
+    .three{
+        /*background-color: #a45600;*/
+        height: 50px;
+    }
+
+</style>
+
+<div class="leaderboards" style="background: transparent !important;">
+    <div class="input-group mb-3" style="margin: unset !important;padding: 5px;">
+        <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default"><i class="fas fa-search"></i></span>
+        </div>
+        <input type="text" id="myInput" class="form-control" aria-label="Small" placeholder="User lookup..." aria-describedby="inputGroup-sizing-sm">
+    </div>
+    
+    <div>
+    <% if (leaderboard) { %>
+        
+        <% for (var i = 0; i < leaderboard.length; i++) { %>
+            <!-- <script>console.log(<%- JSON.stringify(leaderboard[i]) %>);</script> -->
+            <!-- https://stackoverflow.com/questions/47276568/ejs-only-add-class-active-to-first-image-of-image-gallery/47276969 -->
+            <% if(i === 0) { %>
+                
+                <li class="item one">
+                    <div class="position">
+                        <div>
+                            <a><%= i + 1 %></a>
+                        </div>
+                    </div>
+                    <div class="image">
+                        <div style="background-image: url(<%= leaderboard[i].url %>);"></div>
+                    </div>
+                    <div class="username">
+                        <div>
+                            <a> <%= leaderboard[i].username %></a>
+                        </div>
+                    </div>
+                    <div class="coins">
+                        <div>
+                            <a><%= leaderboard[i].coins %></a>
+                        </div>
+                    </div>
+                    <div class="underbar">
+                        <div class="underbar_fill" style="width:' + percent + '%"></div>
+                    </div>
+                </li>
+            <% } else if(i===1) { %>
+                <li class="item two">
+                    <div class="position">
+                        <div>
+                            <a><%= i + 1 %></a>
+                        </div>
+                    </div>
+                    <div class="image">
+                        <% if (leaderboard[i].url != null) { %>
+                            <div style="background-image: url(<%= leaderboard[i].url %>);">
+                            </div>
+                        <% } else { %>
+                            <div></div>
+                        <% } %>
+                    </div>
+                    <div class="username">
+                        <div>
+                            <a> <%= leaderboard[i].username %></a>
+                        </div>
+                    </div>
+                    <div class="coins">
+                        <div>
+                            <a><%= leaderboard[i].coins %></a>
+                        </div>
+                    </div>
+                    <div class="underbar">
+                        <div class="underbar_fill" style="width:' + percent + '%"></div>
+                    </div>
+                </li>
+            <% } else if(i===2){ %>
+                <li class="item three">
+                    <div class="position">
+                        <div>
+                            <a><%= i + 1 %></a>
+                        </div>
+                    </div>
+                    <div class="image">
+                        <% if (leaderboard[i].url != null) { %>
+                            <div style="background-image: url(<%= leaderboard[i].url %>);">
+                            </div>
+                        <% } else { %>
+                            <div></div>
+                        <% } %>
+                    </div>
+                    <div class="username">
+                        <div>
+                            <a> <%= leaderboard[i].username %></a>
+                        </div>
+                    </div>
+                    <div class="coins">
+                        <div>
+                            <a><%= leaderboard[i].coins %></a>
+                        </div>
+                    </div>
+                    <div class="underbar">
+                        <div class="underbar_fill" style="width:' + percent + '%"></div>
+                    </div>
+                </li>
+            <% } else { %>
+                <li class="item">
+                    <div class="position">
+                        <div>
+                            <a><%= i + 1 %></a>
+                        </div>
+                    </div>
+                    <div class="image">
+                        <% if (leaderboard[i].url != null) { %>
+                            <div style="background-image: url(<%= leaderboard[i].url %>);">
+                            </div>
+                        <% } else { %>
+                            <div></div>
+                        <% } %>
+                    </div>
+                    <div class="username">
+                        <div>
+                            <a> <%= leaderboard[i].username %></a>
+                        </div>
+                    </div>
+                    <div class="coins">
+                        <div>
+                            <a><%= leaderboard[i].coins %></a>
+                        </div>
+                    </div>
+                    <div class="underbar">
+                        <div class="underbar_fill" style="width:' + percent + '%"></div>
+                    </div>
+                </li>
+
+            <% } %>
+        <% } %>
+
+    <% } %>
+    </div>
+</div>

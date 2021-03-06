@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+   <head>
+        <%- include('partials/header') %>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.0/interact.min.js" integrity="sha512-VzfhFGr0SmyFCCKPVvtaNbFye/SlM6FVrDS73DdyufzY0xo1ytNlYNdJVBTXoha57qEqvg/qp8pVdV5thYeAcg==" crossorigin="anonymous"></script>
+        <script>
+            const template_header = <%- templates["header"] %>;
+            const template_newReward = <%- templates["newReward"] %>;
+            const template_tts = <%- templates["tts"] %>;
+            const template_showEmote = <%- templates["showEmote"] %>;
+            const template_sound = <%- templates["sound"] %>;
+            const template_video = <%- templates["video"] %>;
+            const template_joinpart = <%- templates["joinPart"] %>;
+            const command_timeout = <%- templates["command_timeout"] %>;
+            const command_slowmode = <%- templates["command_slowmode"] %>;
+            const command_submode = <%- templates["command_submode"] %>;
+            const command_emotemode = <%- templates["command_emotemode"] %>;
+            const command_runad = <%- templates["command_runad"] %>;
+            const template_runcommand = <%- templates["runCommand"] %>;
+        </script>
+   </head>
+   <body>
+      <div class="container-body d-flex w-100 h-100" style="position: absolute;flex-flow:column;">
+        <%- include('partials/navbar')%>
+        <div class="d-flex w-100" style="flex-flow: row;height:calc(100% - 65px);">
+            <% if(user_profile) { %>
+            <div class="d-flex h-100" style="flex-flow:column;width: 300px;border-right: rgb(15,15,15);border-right-width: 5px;border-right-style: solid;">
+                <h5 class="title-underline-blue m-2" >Dashboard: </h5>
+                <div style="margin: 5px auto;">
+                    <a class="btn btn-large btn-success" id="btn-save-settings" href="#">
+                        <i class="fas fa-save" aria-hidden="true"></i> Save Settings
+                    </a>
+                </div>
+                <div style="margin: 5px auto;">
+                    <a class="btn btn-large btn-success" target="__blank" href="https://dashboard.twitch.tv/community/channel-points/rewards">
+                        <i class="fas fa-level-up-alt" aria-hidden="true"></i> Open Channel Points
+                    </a>
+                </div>
+                
+                <h5 class="title-underline-blue m-2" >Bot: </h5>
+                <div class="join-button" style="margin: 5px auto;">
+                    <%-
+                    templates["joinPart"]({
+                        joined: user_profile["botHasConnected"]
+                    })
+                    %> 
+                </div>
+            </div>
+            <% } %>
+            <div class="container-main">
+                <div class="container">
+                
+                    <% if(user_profile !== false && typeof user_profile !== 'undefined') { %>
+                        <% if(typeof user_profile["twitch"]["broadcaster_type"] !== "undefined") { %>
+                            <% if(user_profile["twitch"]["broadcaster_type"] === "affiliate" || user_profile["twitch"]["broadcaster_type"] === "partner") { %>
+                            <!-- Nav bar wit socials -->
+                            <div class="row pt-5">
+                                <div class="col-md">
+                                    <div class="alert alert-primary" role="alert">
+                                        <span>
+                                            For updates or support/help on the website, follow my
+                                            <a href="https://twitter.com/IsaiahCreati" target="_blank" class="alert-link">
+                                                <i class="fa fa-twitter" aria-hidden="true"></i> Twitter 
+                                            </a>
+                                            or join the
+                                            <a href="https://discord.gg/utWaZpF" target="_blank" class="alert-link">
+                                                <i class='fab fa-discord' aria-hidden="true"></i> Discord 
+                                            </a>
+                                            <img src="https://cdn.frankerfacez.com/emoticon/280358/1">👍
+                                        </span>
+                                    </div>
+                                    <div style="display: none;" class="alert alert-success" role="alert" id="success" >
+                                        <p class="mb-0">SUCCESS! Settings successfully saved!</p>
+                                    </div>
+                                    <div style="display: none;" class="alert alert-danger" role="alert" id="failed">
+                                        <p class="mb-0">ERROR! Settings not saved!</p>
+                                        <p class="mb-0" id="error-desc"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="d-flex wrap">
+                                        <!-- Default checked -->
+                                        <div class="m-2 p-2 justify-content-between d-flex w-100 nowrap">
+                                            
+
+                                        </div>
+                                        <div class="desc-item desc-item-fill" style="height: 100%;background-color: unset;">
+                                            <!-- Play Alert Div -->
+                                            <div class="setting-div" style="height: 0%;">
+                                                <div class="form-group setting-item m-3">
+                                                    <!-- <h5 class="title-underline-blue" >Description</h5> -->
+                                                    <p class="paragraph-info m-1 p-2">
+                                                        <div class="d-flex w-100 m-2 p-2">
+                                                            <span class="w-25">OBS Browser Source URL:</span>
+                                                            <div class="w-75" style="margin:auto;">
+                                                                <input type="text" readonly class="hidden-url form-control" id="obsUrl" value="https://isaiahcreati.com/alerts/v1/<%- user_rewards['uuid4']%>">
+                                                            </div>
+                                                        </div>
+                                                    </p>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div class="desc-item desc-item-fill" style="height: 100%;background-color: unset;">
+                                            <!-- Play Alert Div -->
+                                            <div class="setting-div" style="height: 0%;">
+                                                <div style="flex-direction:column; justify-content: space-around; width: 100%;" >
+                                                    <div class="d-flex setting-title">
+                                                        <h2 class="setting-title-text">Rewards</h2>
+                                                    </div>
+                                                    <div class="form-group setting-item m-3">
+                                                        <h5 class="title-underline-blue" >Description</h5>
+                                                        <p class="paragraph-info m-1 p-2">
+                                                            Alerts that run when you redeem a Custom Channel Point.
+                                                        </p>
+                                                    </div>                                                    
+                                                    <div>
+                                                        <button type="button" id="add-reward" class="btn m-3 btn-success btn-default btn-sm">
+                                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>+ Add Channel Point Reward
+                                                        </button>
+                                                        <div class="alert-parent mx-4">
+                                                            <% for(let [key, value] of Object.entries(user_rewards["rewards"])) { %>
+                                                            <div key="<%=key%>" class="alerts-lists p-2 my-3" style="display:flex; flex-direction:column; width: 100%;border-radius: 10px;background-color: #0f0f0f;" >
+                                                                <div style="display: flex;" >
+                                                                    <div class="d-flex flex-column w-100">
+                                                                        <div style="flex-direction:column; justify-content: space-around; width: 100%;" >
+                                                                            <%-
+                                                                            templates["header"]({
+                                                                                type: value["type"],
+                                                                                reward_id: value["reward_id"]
+                                                                            })
+                                                                            %>                      
+                                                                        </div>
+                                                                        <div class="d-flex p-3 settings_container">
+                                                                            <% if(value["type"] === "tts") { %>
+                                                                                <%-
+                                                                                templates["tts"]({
+                                                                                    voice: value["settings"]["voice_name"],
+                                                                                    volume: value["settings"]["volume"],
+                                                                                    charLimit: value["settings"]["char_limit"],
+                                                                                    placeholder: value["settings"]["filter"]["placeholder"],
+                                                                                    f_enabled: value["settings"]["filter"]["enabled"],
+                                                                                    filterList: value["settings"]["filter"]["word_list"]
+                                                                                })
+                                                                                %>
+                                                                            <% } else if(value["type"] === "sound") { %>
+                                                                                
+                                                                                <%-
+                                                                                templates["sound"]({
+                                                                                    type: value["settings"]["type"],
+                                                                                    upload_list: value["settings"]["upload_list"]
+                                                                                })
+                                                                                %>
+                                                                            <% } else if(value["type"] === "video") { %>
+                                                                                <%-
+                                                                                templates["video"]({
+                                                                                    type: value["settings"]["type"],
+                                                                                    upload_list: value["settings"]["upload_list"]
+                                                                                })
+                                                                                %>
+                                                                            <% } else if(value["type"] === "runcommand") { %>
+                                                                                <%-
+                                                                                templates["runCommand"]({
+                                                                                    settings: value["settings"],
+                                                                                })
+                                                                                %>
+                                                                            <% } else if(value["type"] === "showemote") { %>
+                                                                                <%-
+                                                                                templates["showEmote"]({
+                                                                                    size: value["settings"]["size"],
+                                                                                    displaytime: value["settings"]["showtime"],
+                                                                                    fadetime: value["settings"]["fadetime"],
+                                                                                })
+                                                                                %>
+                                                                            <% } %>
+                                                                        </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>      
+                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } else { %>
+                                <div>
+                                    <h1>ERROR!</h1>
+                                    <br>
+                                    <p>You must be a Twitch Affiliate to access this page!
+                                    <br><br>
+                                    You can read about what it takes to become an Affiliate <a target="_blank" href="https://affiliate.twitch.tv/" >here</a>
+                                    </p>
+                                </div>           
+                            <% } %>
+                        <% } else { %>
+                            <div>
+                                <h1>ERROR!</h1>
+                                <br>
+                                <p>You must be a Twitch Affiliate to access this page!
+                                <br><br>
+                                You can read about what it takes to become an Affiliate <a target="_blank" href="https://affiliate.twitch.tv/" >here</a>
+                                </p>
+                            </div>           
+                        <% } %>
+                    <% } else { %>
+                        <div>
+                            <h1>ERROR!</h1>
+                            <br>
+                            <p>You must be logged in to see this page!</p>
+                        </div>
+                    <% } %>
+                <hr class="my-2">
+                <div class="row">
+                    <div class="col-md">
+                        <div class="d-flex wrap">
+
+                            <!-- Footer -->
+                            <%- include('partials/footer')%>
+                            
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- chat right side container -->
+            <div class="chat-container ui-widget-content">
+                <div class="resizable" style="height:100%;width:inherit;">
+                    <% if(user_profile) { %>
+                    <iframe title="IsaiahCreati Twitch Chat" frameborder="0" scrolling="no" id="chat_embed" src="https://www.twitch.tv/embed/<%= user_profile["twitch"]["login"] %>/chat?darkpopout&parent=www.isaiahcreati.com" height="100%" width="100%">
+                    </iframe>
+                    <% } else{ %>
+                        <iframe title="IsaiahCreati Twitch Chat" frameborder="0" scrolling="no" id="chat_embed" src="https://www.twitch.tv/embed/isaiahcreati/chat?darkpopout&parent=www.isaiahcreati.com" height="100%" width="100%">
+                        </iframe>
+                    <% } %>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+
+    <!-- Hidden Intro Modal-->
+    <style>
+        .modal.show .modal-dialog {
+            -webkit-transform: translate(0,-50%);
+            -o-transform: translate(0,-50%);
+            transform: translate(0,-50%);
+            top: 50%;
+            margin: 0 auto;
+        }
+    </style>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow: hidden;">
+        <div class="modal-dialog" role="document">
+        
+        <div class="modal-content bg-dark">
+
+            <div class="modal-body">
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+                <div class="modal-split">
+                    <span>
+                        <h2 class="title-underline-blue">👋 Welcome!</h2>
+                        <p class="paragraph-info m-1 p-2">
+                            This dashboard is where you will link your Twitch Channel Points to a Custom Coded Module.
+                            <br>
+                            Make sure to click the "Join Channel" button on the left side before binding!
+                            <br>
+                            <small>Note: You will only see this message once</small>
+                        </p>
+                    </span>
+                </div>
+            
+                <div class="modal-split">
+                    <span>
+                        <h2 class="title-underline-blue">ℹ️ Need Help?</h2>
+                        <p class="paragraph-info m-1 p-2">
+                            <span>
+                                If you need help please refer to the <a href="/channel-points#getting-started" target="__blank"><strong>Getting Started</strong></a> guide!
+                            </span>
+                            <br>
+                            <span>
+                                Need more help? Join the
+                                <a href="https://discord.gg/utWaZpF" target="_blank" class="alert-link">
+                                    <i class='fab fa-discord' aria-hidden="true"></i> Discord 
+                                </a>!
+                            </span>
+                            <br>
+                            <span>
+                                For site updates follow my 
+                                <a href="https://twitter.com/IsaiahCreati" target="_blank" class="alert-link">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i> Twitter 
+                                </a>
+                            </span>
+
+                        </p>
+                    </span>
+                </div>
+                <div class="modal-split">
+                    <span>
+                        <h3 class="title-underline-blue">📝 For Streamers, By a Streamer</h3>
+                        <p class="paragraph-info m-1 p-2">
+                            This site was made <strong>for streamers</strong>, by a <strong>streamer</strong>.
+                            <br>
+                            If you have ideas for more features, join the <a href="https://discord.gg/utWaZpF" target="_blank" > Discord </a> or stop by <a href="https://www.twitch.tv/isaiahcreati" target="__blank">my stream</a> and let me know!
+                        </p>
+                    </span>
+                </div>	    
+                <div class="modal-split">
+                    <span>
+                        <h2 class="title-underline-blue">📝 A Message from Isaiah... </h2>
+                        <p class="paragraph-info m-1 p-2">
+                            <strong>Hey!</strong> It's Isaiah, the guy that made the site.
+                            <br>
+                            I need YOUR help! <img src="https://cdn.frankerfacez.com/emoticon/297232/1">
+                            <br>
+                            This is a free Service, but only if people support it.
+                            <br>
+                            If you like the service, <strong>Please</strong> consider <a style="color:gold;text-decoration: underline;" href="/donate" target="__blank">donating/supporting</a>
+                        </p>
+                    </span>
+                </div>	
+            </div>
+            
+            <div class="modal-footer" style="border-top: unset;">
+                <!--Nothing Goes Here but is needed! -->
+            </div>
+        </div>
+        </div>
+    </div>
+  
+    <!-- Hidden Template -->
+    <div id="soundTemplate" style="display:none;" > 
+        <div style="display:flex; flex-direction:column;" >
+            <!-- for loop this bihh for each sound-->
+            <div style="display: flex;">
+                <button type="button" id="sound-delete-btn" class="btn btn-danger" style="width: 35px;height: 35px;border-radius: 50%;margin: auto;">X</button>
+                <div class="form-group setting-item px-1 mt-2 mb-0">
+                    <input type="text" class="form-control" id="{sound-name}" value="" required>
+                </div>
+                <div class="form-group setting-item px-1 mt-2 mb-0">
+                    <input type="text" class="form-control" id="{sound-url}" value="" required>
+                </div>
+                <div class="form-group setting-itempx-1 mt-2 mb-0">
+                    <input type="range" class="custom-range custom-slider" min="0" max="100" step="1" id="sound-volume">
+                </div>
+                <div style="width: 35px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Bind Modal -->
+    <div style="display: none;z-index: 99999;" id="bindButton-form" class="bg-dark" >
+        <button id="close" style="position: absolute;right: 0;width: 35px;height: 35px;background-color: #af3838;border: unset;color: white;margin: 10px;">
+            X
+        </button>
+        <div class="p-3 h-100 d-flex flex-column">
+            <h3 class="title-underline-blue" style="text-align: center;">
+                Bind Reward to Module
+            </h3>
+            <div class="paragraph-info m-1 p-2">
+                <p>To bind your Channel Point rewards to a module:</p>
+                <ol>
+                    <li>
+                        Press the <span class="text-primary btn-primary p-1" style="color:white !important; border-radius: 5px;" >BIND</span> button
+                    </li>
+                    <li>
+                        Redeem the Channel Point Reward in your chat.
+                    </li>
+                </ol>
+            </div>
+            <div class="mt-auto">
+                <button type="button" id="binder" class="my-3 btn w-100 btn-primary">Bind</button>
+                <button type="button" id="binder-close" style="display: none;" class="my-3 btn w-100 btn-primary"></button>
+                <div style="display: none;"  id="bind-success" class="alert alert-success" role="alert">
+                </div>
+            </div>
+
+            <img  class="my-2 mx-auto" id="bind-loading" src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif" style="visibility: hidden; width:25px; height:25px;" />
+        </div>
+    </div>
+       
+    </body>
+    <footer>
+    <% if(user_profile) { %>
+        <script src="/page-assets/dashboard/scripts/modal-pagation.js"></script>
+        <script src="/page-assets/dashboard/scripts/notify.min.js"></script>
+        <script src="/page-assets/dashboard/scripts/resize.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                if(!localStorage.getItem('firstLoad')) {
+                    $("#myModal").modal({backdrop: 'static'});
+                }
+
+                $('#success').hide();
+                $("#failed").hide();
+            
+            });
+
+            var timer;
+            var timeout = 500; // Timout duration
+            $(".setting-div").on("keyup", ".form-control", function() {
+                if(timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(saveAndPost, timeout);  
+            });
+
+            $(".alert-parent").on("change", ".type-selector", function() {
+                var type = $(this).children("option:selected").attr("type");
+                    //console.log(type);
+                    //console.log($($(this).closest("div[key]")[0]).find(".settings_container"));
+                    //console.log($($(this).closest(".setting-title")[0]).css("background-image"))
+                    if (type === 'tts'){
+                        $($(this).closest(".setting-title")[0]).css("background-image", "url('https://i.imgur.com/qiKwwf0.png')")
+                        $($(this).closest("div[key]")[0]).find(".settings_container").html(template_tts).hide().slideDown(500);
+                    }else if (type === 'showemote'){
+                        $($(this).closest(".setting-title")[0]).css("background-image", "url('https://i.imgur.com/dxvhasM.png')")
+                        $($(this).closest("div[key]")[0]).find(".settings_container").html(template_showEmote).hide().slideDown(500);
+                    }else if (type === 'sound'){
+                        $($(this).closest(".setting-title")[0]).css("background-image", "")
+                        $($(this).closest("div[key]")[0]).find(".settings_container").html(template_sound).hide().slideDown(500);
+                    }else if (type === 'video'){
+                        $($(this).closest(".setting-title")[0]).css("background-image", "")
+                        $($(this).closest("div[key]")[0]).find(".settings_container").html(template_video).hide().slideDown(500);
+                    }else if (type === 'runcommand'){
+                        $($(this).closest(".setting-title")[0]).css("background-image", "")
+                        $($(this).closest("div[key]")[0]).find(".settings_container").html(template_runcommand({settings:{command:""}})).hide().slideDown(500);
+                    }else{
+                        $($(this).closest(".setting-title")[0]).css("background-image", "")
+                        $($(this).closest("div[key]")[0]).find(".settings_container").html("<div><b>error</b></div>");
+                    }
+            });
+            $(".alert-parent").on("change", ".command-selector", function() {
+                var command = $(this).children("option:selected").attr("command");
+                //if(settings.command === "timeout"){}
+                switch(command){
+                    case "timeout":{
+                        $(this).closest(".setting-item").find(".command-features").html(command_timeout({length: 600}));
+                        break;
+                    }
+                    case "slowmode":{
+                        $(this).closest(".setting-item").find(".command-features").html(command_slowmode({length:300, duration: 15}));
+                        break;
+                    }
+                    case "submode":{
+                        $(this).closest(".setting-item").find(".command-features").html(command_submode({length:300}));
+                        break;
+                    }
+                    case "emotemode":{
+                        $(this).closest(".setting-item").find(".command-features").html(command_emotemode({length:300}));
+                        break;
+                    }
+                    case "runad":{
+                        $(this).closest(".setting-item").find(".command-features").html(command_runad({length:30}));
+                        break;
+                    }
+                    default:{
+                        $(this).closest(".setting-item").find(".command-features").html("");
+                        break;
+                    }
+                }
+            });
+            $(".hidden-url").on("click", function () {
+                $(this).css("filter", "blur(0px)");
+            });
+
+
+            //Binder JS Stuff
+            dialog = $("#bindButton-form").dialog({
+                autoOpen: false,
+                height: 400,
+                width: 450,
+                modal: true,
+            });
+
+            $(".alert-parent").on("click", ".binder", function() {
+            //$(".binder").button().on("click", function () {
+
+                dialog.dialog("open");
+                var key = $(this).closest("div[key]").attr("key");
+                dialog.data('key', key);
+
+            });
+
+            /*CLose Buttons for binders */
+            $("#close").button().on("click", function () {
+                dialog.dialog("close");
+                $("#bind-loading").css("visibility", "hidden");
+                $("#bind-success").css('display', "none");
+                $("#bind-success").html("");
+                $("#binder").prop('disabled', false);
+                $("#binder").css('display', "block");
+
+            });
+
+            $("#binder-close").button().on("click", function () {
+
+                dialog.dialog("close");
+
+                $("#bind-loading").css("visibility", "hidden");
+                $("#bind-success").css('display', "none");
+                $("#binder-close").css('display', "none");
+
+                $("#binder").prop('disabled', false);
+                $("#binder").css('display', "block");
+
+            });
+
+
+            $("#add-reward").click(function () {
+                //$('.alert-parent').prepend(template_newReward);
+                var length = $(".alert-parent").children().length;
+                $('.alert-parent').prepend(template_newReward({key: length}));
+            })
+
+            //Cant use .click on appended elements
+            $(document).on('click', '.delete-button', function () {
+                $(this).closest(".alerts-lists").slideUp(550, function() {
+                    $(this).closest('div[key]').remove();
+                }); 
+            });
+
+            function getRewardsData() {
+                var rewards = [];
+
+                for( const element of $(".alert-parent").children()){
+                    var $element = $(element);
+                    var type = $(element).find(".type-selector").children("option:selected").attr("type");
+
+                    if(type === "tts"){
+                        tts_filter_list = $element.find(".tts_filter-list")[0].value;
+                        tts_filter_list = tts_filter_list.replace(/\r?\n|\r/g, " ").split(" ").filter(word=> word.length > 2).join(' ');                   
+                        rewards.push({
+                            reward_id: $element.find(".reward_id").text(),
+                            type: "tts",
+                            settings: {
+                                voice_name: $element.find(".tts_voice-select")[0].value,
+                                char_limit: parseInt($element.find(".tts_char-limit")[0].value),
+                                volume: parseInt($element.find(".tts_volume")[0].value),
+                                filter: {
+                                    enabled : $element.find(".tts_filter-enabled")[0].checked,
+                                    placeholder : $element.find(".tts_filter-placeholder")[0].value,
+                                    word_list : tts_filter_list
+                                }
+                            }
+                        });
+
+                    }else if(type === "showemote"){
+                        rewards.push({
+                            reward_id: $element.find(".reward_id").text(),
+                            type: "showemote",
+                            settings: {
+                                size: $element.find(".showemote_size")[0].value,
+                                showtime: parseInt($element.find(".showemote_displayTime")[0].value),
+                                fadetime: 500
+                            }
+                        });
+                    }else if(type === "sound"){
+                        rewards.push({
+                            reward_id: $element.find(".reward_id").text(),
+                            type: "sound",
+                            settings: {
+                                volume: parseInt($element.find(".sound_volume")[0].value),
+                                file_name: $element.find(".sound_file").attr("file_name"),
+                                file_url: $element.find(".sound_file").attr("url"),
+                            }
+                        });
+                    }else if(type === "video"){
+                        rewards.push({
+                            reward_id: $element.find(".reward_id").text(),
+                            type: "video",
+                            settings: {
+                                volume: parseInt($element.find(".video_volume")[0].value),
+                                file_name: $element.find(".video_file").attr("file_name"),
+                                file_url: $element.find(".video_file").attr("url"),
+                                display: {
+                                    x: $(".resize-drag").attr("data-x"),
+                                    y: $(".resize-drag").attr("data-y"),
+                                    scale: Math.round($(".resize-drag").width()/500 * 100),
+                                    width: $element.find(".video_width")[0].value,
+                                    height: $element.find(".video_width")[0].value,
+                                }
+                            }
+                        });
+                    }else if(type === "runcommand"){
+
+                        var command = $($element).find(".command-selector").children("option:selected").attr("command");
+                        var settings = {
+                            command: command,
+                            features: {}
+                        }
+                        switch(command){
+                            case "timeout":{
+                                settings["features"]["length"] = parseInt($element.find(".timeout_length")[0].value);
+                                break;
+                            }
+                            case "slowmode":{
+                                settings["features"]["length"] = parseInt($element.find(".slowmode_length")[0].value);
+                                settings["features"]["duration"] = parseInt($element.find(".slowmode_duration")[0].value);
+                                break;
+                            }
+                            case "submode":{
+                                settings["features"]["length"] = parseInt($element.find(".submode_length")[0].value);
+                                break;
+                            }
+                            case "emotemode":{
+                                settings["features"]["length"] = parseInt($element.find(".emotemode_length")[0].value);
+                                break;
+                            }
+                            case "runad":{
+                                settings["features"]["length"] = parseInt($element.find(".emotemode_length")[0].value);
+                                break;
+                            }
+                            default:{
+                                console.log("Unknown 'runcommand' type of '" + command + "'");
+                                break;
+                            }
+
+                        }
+                        rewards.push({
+                            reward_id: $element.find(".reward_id").text(),
+                            type: "runcommand",
+                            settings
+                        });
+
+                    }
+                }
+                return rewards;
+                
+            }
+
+            function saveAndPost() {
+                var userID = "<%= userPassport.data[0].id %>";
+                var rewards = getRewardsData();
+
+                $.ajax({
+                    url: '/api/dashboard/save-rewards',
+                    type: 'POST',
+                    data: {
+                        user_id: userID,
+                        rewards: JSON.stringify(getRewardsData()),
+                    },
+
+                    success: function (msg) {
+                        $.notify("Settings Saved!", "success");
+                    },
+
+                    error: function (msg) {
+                        console.log(msg);
+                        $.notify(`Err: ${msg.responseText}`, "warn");
+                    }
+
+                });
+            }
+
+            function joinPartPost() {
+                var userID = "<%= userPassport.data[0].id %>";
+                console.log($(".bot-connect").attr("command"));
+                $.ajax({
+                    url: '/api/dashboard/join-part',
+                    type: 'POST',
+                    data: {
+                        user_id: userID,
+                        bot: JSON.stringify({
+                            command: $(".bot-connect").attr("command"),
+                        })
+                    },
+
+                    success: function (msg) {
+                        
+                        if(msg.success){
+                            $.notify(msg.msg, "success");
+                            if($(".bot-connect").attr("command") === "PART"){
+                                $(".bot-connect").parent().html(template_joinpart({joined: false}));
+                            }else{
+                                $(".bot-connect").parent().html(template_joinpart({joined: true}));
+                            }
+                        }else{
+                            console.log(msg);
+                            $.notify("Error trying to join channel. DM Isaiah a SS of your console", "error");
+                        }
+                        
+                    },
+
+                    error: function (msg) {
+                        console.log(msg);
+                        $.notify(`Err: ${msg.responseText}`, "warn");
+                    }
+
+                });
+            }
+            
+            $(".alert-parent").on("change", ".custom-file-input", function() {
+                var $_this = $(this);
+                var formData = new FormData();
+                formData.append('file', $(this)[0].files[0]); 
+                formData.append('meta', JSON.stringify({user_id: "<%= userPassport.data[0].id %>"})); 
+                var displayName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(displayName);
+                $.ajax({
+                    url: "/api/dashboard/upload",
+                    data: formData,
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if(data.status === 200) {
+                            console.log("SUCCESS", data)
+                            /*
+                            $_this.attr("data-toggle", "tooltip")
+                            $_this.attr("data-placement", "top");
+                            $_this.attr("data-html", true);
+                            $_this.attr("title", "<div class='text-success'><b>Upload Success!</b></div>");
+                            $_this.tooltip('show');
+                            */
+                            $.notify(`File ${data.file["name"]} uploaded!`, "success");
+                            $_this.attr("file_name", data.file["name"]);
+                            $_this.attr("url", data.file["url"]);
+                            saveAndPost();
+                        }
+                    },
+                    error:  function(data) {
+                        if(data.status === 500) {
+                            console.log("failed", data.responseJSON["message"])
+                            /*
+                            $_this.attr("data-toggle", "tooltip")
+                            $_this.attr("data-placement", "top");
+                            $_this.attr("data-html", true);
+                            $_this.attr("title", "<div class='text-danger'><b>Upload Failed!</b> <br>" + data.responseJSON["message"] + "</div>");
+                            $_this.tooltip('show');
+                            */
+                            $.notify(`File ${data.file["name"]} FAILED to upload!`, "error");
+                            $_this.attr("file_name", "")
+                            $_this.attr("url", "")
+                        }
+                    }
+                });
+            });
+            $("#btn-save-settings").click(function () {
+                saveAndPost();
+                /*
+                if (!$(this).prop("disabled")) {
+                    if ($.trim($('#tts_filter_list').val()) == '') {
+                        $('#tts_filter_list').val("thisCannotBeEmpty PleaseDisableTheFilter");
+                        $('#tts_filter_list').css("border-color", "red");
+                        $("#tts_filter_enabled")[0].checked = false;
+                    }
+                    getRewardsData();
+                    saveAndPost();
+
+                    $(this).prop('disabled', true);
+                    setTimeout(() => {
+                        $(this).prop('disabled', false);
+                    }, 7000);
+                }
+                */
+            });
+            $(".join-button").on("click", ".bot-connect", function() {
+                joinPartPost();
+            });
+            
+
+            $("#binder").click(function () {
+                var key = $("#bindButton-form").data('key');
+                //Display loading gif, disable it on close or on success
+                $("#bind-loading").css("visibility", "visible");
+
+                $("#binder").prop('disabled', true);
+                $("#binder").text("Binding...");
+
+                var socketData = undefined;
+
+                function ensureFooIsSet() {
+                    return new Promise(function (resolve, reject) {
+                        (function waitForFoo() {
+                            if (typeof socketData !== "undefined") return resolve();
+                            setTimeout(waitForFoo, 30);
+                        })();
+                    });
+                }
+
+                var socket = io('/notifications');
+                var roomId = "<%= user_rewards['uuid4'] %>";
+
+                socket.on('connect', function () {
+                    console.log('Connected!');
+                    socket.emit('join', roomId);
+                });
+
+                socket.on("bind", function (msg) {
+                    console.log(msg);
+                    socketData = msg;
+                    socket.close();
+                });
+                
+                ensureFooIsSet().then(function () {
+                    
+                    $("div[key]").filter(`[key=${key}]`).find(".reward_id").text(socketData["id"]);
+
+                    //Deactivate Loading GIf
+                    $("#bind-loading").css("visibility", "hidden");
+
+                    //Turn close bind button into close button
+                    $("#binder").text("Bind");
+                    $("#binder").css("display", "none");
+
+                    $("#binder-close").css("display", "block");
+                    $("#binder-close").text("Success! Bound to " + socketData["id"] + ". Close.");
+                    saveAndPost();
+
+                });
+
+            });
+
+        </script>
+        <style>
+            .resize-drag {
+                width: 160px;
+                height:90px;
+                background-color: #29e;
+                color: white;
+                font-size: 20px;
+                touch-action: none;
+                /* This makes things *much* easier */
+                box-sizing: border-box;
+            }
+        </style>
+        <script src="/socket.io/socket.io.js"></script>
+        
+    <% } else { %>
+    <script>
+        console.log("Hey! It's me. Mr. Creati. Yea, you gotta sign in to see this stuff.");
+    </script>
+    <% } %>
+    
+   </footer>
+</html>

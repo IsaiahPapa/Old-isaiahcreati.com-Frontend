@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <%- include('partials/header') %>
+        <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        
+    </head>
+    <body>
+        
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+            <%- include('partials/navbar')%>
+
+            <div class="container-main">
+                <div class="container">
+                    <div style="margin: auto;">
+                        <div class="m-1 my-5 p-2">
+                            <div class="paragraph-info">
+                                <p class="display-4">Dear streamers,</p>
+                                <p><br></p>
+                                <p>I am Full Time student attending college, and I work on this website in my free time on top of other personal projects.</p>
+                                <p><strong>Please</strong> consider donating/supporting to:</p>
+                                <ol type="I">
+                                    <li>Help keep this project alive
+                                        <ul>
+                                            <li>Funds for server improvements</li>
+                                            <li>Monthly/Yearly Server costs (Server Usage, File Hosting, Domain names, etc..) </li>
+                                            <li>Yearly Domain Name Cost</li>
+                                        </ul>
+                                    </li>
+                                    <li>Fund potential future projects.</li>
+                                    <li>Relieve pressure off my shoulders</li>
+                                </ol>
+                                <p>Thank you for your time, <br><br><span style="font-family: 'Bad Script', cursive;font-size: 1.5rem;">Isaiah</span> </p>
+
+                            </div>
+                        </div>
+                        
+
+                        <h2 class="title-underline-blue">Donate/Support</h2>
+                        <div class="m-1 p-2">
+                            <div class="paragraph-info">
+                                <% if(user_profile !== false && typeof user_profile !== 'undefined') { %>
+                                    <% if(typeof user_profile["twitch"]["broadcaster_type"] !== "undefined") { %>
+                                        <h3 style="text-align:center;">Donate <strong style="color:gold">$5</strong> or more to get the supporter role.</h3>
+                                        <div class="w-50 m-auto">
+                                            <div class="form-group">
+                                                <div class="col-auto">
+                                                    <label class="sr-only" for="balanceInput">5.00</label>
+                                                    <div class="input-group mb-2">
+                                                        <!-- Presets -->
+
+                                                        <div class="input-group-prepend">
+                                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                                <label class="btn btn-secondary active">
+                                                                  <input type="radio" name="options" id="option1" autocomplete="off" checked> $5
+                                                                </label>
+                                                                <label class="btn btn-secondary">
+                                                                  <input type="radio" name="options" id="option2" autocomplete="off"> $10
+                                                                </label>
+                                                                <label class="btn btn-secondary">
+                                                                  <input type="radio" name="options" id="option3" autocomplete="off"> $25
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Text Prefix -->
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">$</div>
+                                                        </div>
+                                                        <!-- Input -->
+                                                        <input type="number" class="form-control" id="balanceInput" value="5.00" placeholder="5.00">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+ 
+                                        <div id="paypal-button-container"></div>
+                                    <% } %>
+                                <% }else{ %>
+                                    <div style="position: relative;">
+                                        <div class="d-flex" style="opacity: .2;display: flex;pointer-events: none;flex-flow: column;">
+                                            <h3 style="text-align:center;">Donate <strong style="color:gold">$5</strong> or more to get the supporter role.</h3>
+                                            <div id="paypal-button-container"></div>                                     
+                                        </div>
+                                    <div class="d-flex" style="position: absolute;width: 100%;height: 100%;z-index: 99;top: 0;">
+                                        <div class="m-auto d-flex" style="align-items: center;">                            
+                                            <div class="bg-dark m-1">
+                                                <a href="/auth/twitch" class="text-white p-1" style="display:flex;width: 100%;height: 100%; background-color: #9146FF;">
+                                                    <div style="display: flex;width: 100%;">
+                                                        <span style="margin: auto 0 auto auto;font-size: 2em; color: #fff;padding:5px;">
+                                                        <i class="fab fa-twitch" aria-hidden="true"></i>
+                                                        </span>
+                                                        <span style="margin: auto;text-align:center;padding:5px;">
+                                                        Sign In
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <span> to donate</span>
+                                        </div>
+                                    </div></div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <h2 class="title-underline-blue">Benefits</h2>
+                        <div class="m-1 p-2">
+                            <div class="paragraph-info">
+                                <div class="w-100 d-flex m-3" >
+                                    <div class="w-75">
+                                        <h3>
+                                            <span style="border-bottom: 2px solid;">
+                                                <i class="fas fa-star" style="color: #FFD700;"></i>
+                                                Access to Beta Modules
+                                            </span>
+                                        </h3>
+                                        <p>
+                                            With the supporter role, you will be able to access modules early. Each module has the potential to be free for everyone "later".
+                                            I say potentially, because they are either going to be scrapped or implemented. You will be able to use new features that I am working on, before other people.
+                                        </p>
+                                    </div>
+                                    <div class="w-25 p-3">
+                                        <img src="/page-assets/premium/restricted.png" class="img-fluid" alt="Restricted module" />
+                                    </div>
+                                </div>
+                                
+                                <div class="w-100 d-flex m-3" >
+                                    <div class="w-25 p-3" style="background-size: cover;">
+                                        <img src="/page-assets/premium/voices.png" class="img-fluid" alt="Text-to-Speech voice list" />
+                                    </div>
+                                    <div class="w-75">
+                                        <h3>
+                                            <span style="border-bottom: 2px solid;">
+                                                <i class="fas fa-star" style="color: #FFD700;"></i>
+                                                Access to all 62 Voices
+                                            </span>
+                                        </h3>
+                                        <p>
+                                            You will also have have access to all 62 Text-to-Speech voices. 
+                                        </p>
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="w-100 d-flex m-2" style="height: 275px;">
+                                    <div class="w-75">
+                                        <h3>Reward 3</h3>
+                                        <p>
+
+                                        </p>
+                                    </div>
+                                    <div class="w-25">
+                                        <img src="..." class="img-fluid" alt="Responsive image" />
+                                    </div>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <hr class="my-3"> 
+                    <div class="row">
+                        <div class="d-flex" style="width: 100%;flex-direction: column;">
+                            
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <%- include('partials/footer')%>
+                
+                    <!-- Sandbox <script src="https://www.paypal.com/sdk/js?client-id=Ae40cxjnuKlsfTbU62dXy8JOtIsNkKP6ec5NU4yTR_BYkdUf5zDMvmJlwkoNPqLuxVSPIBUyQ-eXKnua&currency=USD&components=buttons,funding-eligibility,marks"></script> -->
+                    <script src="https://www.paypal.com/sdk/js?client-id=ARRhuMDY8BUgufZTPTBgnt7lFuLlFl3xU1Sis31gbVFAMaipJZFJJVy7fboIFBv2oQI60W-uWukwfOJB&currency=USD&components=buttons,funding-eligibility,marks"></script>
+                    <style>
+                        #paypal-button-container{
+                            display: flex;
+                            flex-flow: column;
+                        }
+                        .paypal-buttons{
+                            margin: auto;
+                            margin: 10px auto;
+                        }
+                    </style>
+                    <script>
+                        var $balance = $("#balanceInput");
+                        $("#option1").click(()=>{
+                            $balance.val(5.00)
+                        });
+                        $("#option2").click(()=>{
+                            $balance.val(10.00)
+                        });
+                        $("#option3").click(()=>{
+                            $balance.val(25.00)
+                        });
+                        
+
+                        
+                        paypal.Buttons({
+                            fundingSource: paypal.FUNDING.PAYPAL,
+                            style: {
+                                layout: 'vertical',
+                                size: 'responsive',
+                                shape: 'rect',
+                                label: 'checkout',
+                            },
+                            createOrder: function(data, actions) {
+                                let balance = Math.round((parseFloat($("#balanceInput").val()) + Number.EPSILON) * 100) / 100
+                                if(balance < 1){ balance = 1};
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: balance
+                                        }
+                                    }],
+                                    application_context: {
+                                        shipping_preference: 'NO_SHIPPING'
+                                    }
+                                });
+                            },
+                            onCancel: function(data) {
+                                console.log(data);
+                                Swal.fire(
+                                    'Oops!',
+                                    `Transaction ${data} Canceled`,
+                                    'warning'
+                                );
+                            },
+                            onError: function(data) {
+                                console.log(data);
+                                Swal.fire(
+                                    'Error!',
+                                    `Transaction ${data} error`,
+                                    'error'
+                                );
+                            },
+                            onApprove: function(data) {
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/api/paypal/capture-paypal-transaction",
+                                    data: {
+                                        orderID: data.orderID
+                                    },
+                                    dataType: "json",
+                                    success: (data)=>{
+                                        console.log(data);
+                                        if(data.pending){
+                                            Swal.fire(
+                                                'Success!',
+                                                `Transaction ${data.capture.result.id} Pending for approval but rank set to "Supporter"!`,
+                                                'success'
+                                            );
+                                        }else{
+                                            Swal.fire(
+                                                'Success!',
+                                                `Transaction ${data.capture.result.id} success!\nRank set to "Supporter"`,
+                                                'success'
+                                            );
+                                        }
+
+                                    },
+                                    error: function (data) {
+                                        console.log(data);
+                                        return Swal.fire(
+                                                'Failed!',
+                                                `${data.errors}\nIf issues persist contact Isaiah.`,
+                                                'error'
+                                        );
+                                    }
+                                }).done(function(data) {
+                                    console.log( data );
+                                });
+                            }
+                        }).render('#paypal-button-container');
+
+                        var FUNDING_SOURCES = [
+                            paypal.FUNDING.VENMO,
+                            // paypal.FUNDING.CARD,
+                            paypal.FUNDING.SEPA,
+                            paypal.FUNDING.BANCONTACT,
+                            paypal.FUNDING.BLIK,
+                            paypal.FUNDING.EPS,
+                            paypal.FUNDING.GIROPAY,
+                            paypal.FUNDING.IDEAL,
+                            paypal.FUNDING.MYBANK,
+                            paypal.FUNDING.P24,
+                            paypal.FUNDING.SOFORT,
+                        ];
+
+                        // Loop over each funding source / payment method
+                        FUNDING_SOURCES.forEach(function(fundingSource) {
+
+                            // Initialize the buttons
+                            var button = paypal.Buttons({
+                                fundingSource: fundingSource,
+                                application_context: {
+                                    shipping_preference: 'NO_SHIPPING'
+                                }
+                            });
+                            
+                            // Check if the button is eligible
+                            if (button.isEligible()) {
+
+                                // Render the standalone button for that funding source
+                                button.render('#paypal-button-container');
+                            }
+                        });
+                        
+                        
+                    </script>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

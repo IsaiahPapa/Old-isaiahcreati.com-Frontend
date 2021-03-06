@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <%- include('partials/header') %>
+    </head>
+    <body>
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;">
+            <%- include('partials/navbar')%>
+
+            <div class="container-main">
+
+                <div class="container">
+                    <!-- Nav bar wit socials -->
+                    <div class="row">
+                        <div class="col-md">
+                        <div class="navbar">
+                            <div class="d-flex">
+                                <div class="profile-name">
+                                    <h1 class="display-1" style="margin:auto;padding: 0 15px;">Viewers</h1>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    <div class="row">
+                        <% if(userList) { %>
+                            <div style="display: flex; flex-wrap: wrap;width:100%;">
+                            <% for (let i = 0; i < userList.length; i++) { %>
+                                <div style="margin:auto;width: 250px;;height:155px;background-position: center;background-image: url('<%= userList[i].profile_image %>');background-size:cover;">
+                                    <h4>
+                                    <%= userList[i].display_name %>
+                                    </h4>
+                                    <a>
+                                    <%= userList[i].rank %>
+                                    </a>
+                                </div>
+                            <% } %>
+                            </div>
+                        <% } %>   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

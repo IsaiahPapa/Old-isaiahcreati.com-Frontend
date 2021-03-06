@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- socketio -->
+      <script src="/socket.io/socket.io.js"></script>
+      <!-- Twitch Embed -->
+      <script src="https://embed.twitch.tv/embed/v1.js"></script>
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet">
+      <script src="https://kit.fontawesome.com/276514af8d.js" crossorigin="anonymous"></script>
+      <script type="text/javascript">
+         $(function () {
+             var socket = io();
+             socket.on('sound list', function(msg){
+                 for (var i = 0; i < msg.length; i++) {
+                     $('#sound-list').append('<tr'
+                     + '<th scope="row">' + (i+1) + '</th>'
+                     + '<td>' + stinky + '</td>'
+                     + '</tr>');
+                 }
+             });
+         });
+      </script>
+      <style>
+         /* width */
+         ::-webkit-scrollbar {
+         width: 10px;
+         }
+         /* Track */
+         ::-webkit-scrollbar-track {
+         background: #f1f1f1;
+         }
+         /* Handle */
+         ::-webkit-scrollbar-thumb {
+         background: #888;
+         }
+         /* Handle on hover */
+         ::-webkit-scrollbar-thumb:hover {
+         background: #555;
+         }
+         body{
+         font-family: 'Roboto', sans-serif;
+         color: white;
+         background: rgb(28,28,28);
+         background: linear-gradient(90deg, rgba(28,28,28,1) 32%, rgba(24,24,27,1) 78%);
+         background-attachment: fixed;
+         }
+         #twitch-embed{
+         width: 100%;
+         height: 100%;
+         }
+         .flex{
+         display: flex;
+         padding: 5px;
+         }
+         .svg-container{
+         width: 50px;
+         height: 50px;
+         display: flex;
+         padding: 5px;
+         }
+         svg{
+         color: white;
+         fill:  white;
+         width: 90%;
+         margin: 0 auto;
+         display: block;
+         }
+         .navbar{
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         margin: auto;
+         width: 100%;
+         padding: 24px 8px 5px 8px;
+         }
+         .profile-image{
+         width: 100px;
+         height: 100px;
+         margin: auto;
+         border-radius: 50%;
+         background-size: 110%;
+         background-position: center;
+         }
+         .profile-name{
+         display: flex;
+         }
+         .video-container{
+         width:100%;
+         height:inherit;
+         padding: 5px;
+         }
+         .social-item{
+         color:white;
+         display:flex;
+         margin:5px;
+         flex: 25 1 0%;
+         border-radius: 10px;
+         }
+         .social-item > a{
+         padding: 5px 10px;
+         color: white;
+         font-weight: 500;
+         font-weight: 500;
+         }
+         .desc-item{
+         flex: 25 1 0%;
+         height: 330px;
+         }
+         .twitter{
+         background-color: #1da1f2;
+         }
+         .twitch{
+         background-color: #6441a5;
+         }
+         .instagram{
+         background: #f09433;
+         background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+         background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+         background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+         }
+         .youtube{
+         background-color: #ff0000;
+         }
+      </style>
+      <title>Creati Compound!</title>
+   </head>
+   <body>
+      <div style="width:100%;height:100%;position: absolute;display:flex;">
+         <div class="container" style="max-width:100%;overflow-y:scroll;">
+            <div class="container">
+               <!-- Nav bar wit socials -->
+               <div class="row">
+                  <div class="col-md">
+                     <div class="navbar">
+                        <div class="flex">
+                           <div class="profile-image" style="background-image:url('https://static-cdn.jtvnw.net/jtv_user_pictures/89fdf9b7-6827-42ac-964f-7529781a2967-profile_image-300x300.png');">
+                           </div>
+                           <div class="profile-name">
+                              <h1 style="margin:auto;padding: 0 15px;">Hey! I'm IsaiahCreati</h1>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md">
+                     <div class="navbar">
+                        <div class="flex">
+                           <div style="margin:auto;">
+                              <h2>Who am I & Why this site?</h2>
+                              <a>
+                                 I stream and have built a community on twitch.tv(/isaiahcreati).
+                                 I've coded a substantial amount of scripts and features to make viewing the stream a much more interactive experience. Such interactivity required access to third parties, and basic chat/bot integration didn't cut it for me.
+                                 This site page should act as resource while watching to make viewing the stream seem seamless.
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- socials -->
+               <div class="row">
+                  <div class="col-md">
+                     <div class="flex">
+                        <div class="twitter social-item" href="#">
+                           <div class="flex">
+                              <div class="svg-container">
+                                 <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                                    </path>
+                                 </svg>
+                              </div>
+                              <div>
+                                 <a class="font-weight-bold">Twitter</a>
+                                 <br>
+                                 <a class="stats">84</a>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="twitch social-item"  href="#">
+                           <div class="flex">
+                              <div class="svg-container">
+                                 <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitch" class="svg-inline--fa fa-twitch fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path d="M391.17,103.47H352.54v109.7h38.63ZM285,103H246.37V212.75H285ZM120.83,0,24.31,91.42V420.58H140.14V512l96.53-91.42h77.25L487.69,256V0ZM449.07,237.75l-77.22,73.12H294.61l-67.6,64v-64H140.14V36.58H449.07Z"></path>
+                                 </svg>
+                              </div>
+                              <div>
+                                 <a class="font-weight-bold">Twitch</a>
+                                 <br>
+                                 <a class="stats">3812</a>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="youtube social-item"  href="#">
+                           <div class="flex">
+                              <div class="svg-container">
+                                 <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="youtube" class="svg-inline--fa fa-youtube fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                    <path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path>
+                                 </svg>
+                              </div>
+                              <div>
+                                 <a class="font-weight-bold">Youtube</a>
+                                 <br>
+                                 <a class="stats">489</a>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="instagram social-item"  href="#">
+                           <div class="flex">
+                              <div class="svg-container">
+                                 <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z">
+                                    </path>
+                                 </svg>
+                              </div>
+                              <div>
+                                 <a class="font-weight-bold">Instagram</a>
+                                 <br>
+                                 <a class="stats">28</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <hr class="my-3">
+               <!-- Video -->
+               <div class="row">
+                  <div class="col-md" style="height:625px;">
+                     <div class="video-container flex">
+                        <iframe src="https://embed.twitch.tv?allowfullscreen=true&amp;channel=isaiahcreati&amp;layout=video&amp;theme=dark&amp;referrer=" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" width="100%" height="100%"></iframe>
+                     </div>
+                  </div>
+               </div>
+               <hr class="my-3">
+               <div class="row">
+                  <div class="col-md">
+                     <div class="flex">
+                        <div class="" style="width:50%;">
+                           <h3>Coins Spent Leaderboards</h3>
+                           <iframe src="http://51.79.86.129:777/" height="550" width="350px" frameborder="0" allowtransparency="true"></iframe>
+                        </div>
+                        <div class="">
+                           <table class="table table-bordered">
+                              <thead>
+                                 <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Sound ID</th>
+                                 </tr>
+                              </thead>
+                              <tbody id="sound-list">
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- chat right side container -->
+         <div style="width:350px;height:100%;min-width:350px;max-width:350px;">
+            <div style="position:fixed;height:110%;width:inherit;bottom:0px;">
+               <iframe frameborder="0" scrolling="no" id="chat_embed" src="https://www.twitch.tv/embed/isaiahcreati/chat?darkpopout" height="100%" width="100%">
+               </iframe>
+            </div>
+         </div>
+      </div>
+      </div>
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   </body>
+</html>

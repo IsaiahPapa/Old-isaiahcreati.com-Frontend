@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <%- include('partials/header') %>
+
+        <script>
+            function getClipID(url){
+                var url = url;
+
+                if(url[url.length -1] == "/"){
+                    url = url.substring(0, url.length-1);
+                }
+                return url.substring(url.lastIndexOf('/') + 1);
+            }
+
+            $(function () {
+                
+                var socket = io("/notifications");
+
+                <% if(userPassport) {%>
+                    var user = "<%= userPassport.data[0].display_name %>";
+                    var id = "<%= userPassport.data[0].id %>";
+                <% } else { %>
+                    var user = null;
+                <% } %>
+
+                
+                $("#submitClip").click(function(){
+
+                    var clip = $("#clipURL").val();
+                    if(clip.length > 40){
+                        if(clip.search("isaiahcreati") !== -1){
+                            currentClipID = getClipID(clip);
+                            socket.emit("clipID", {clipID: currentClipID, user: user});
+                            $("#clipURL").val("");
+
+                            window.location.reload();
+                        } else if(clip.search("clips.twitch.tv")){
+                            currentClipID = getClipID(clip);
+                            socket.emit("clipID", {clipID: currentClipID, user: user});
+                            $("#clipURL").val("");
+                            
+                            window.location.reload();
+                        }
+                        else{
+                            alert("Url must be valid");
+                        }
+                        
+                    }
+                    else{
+                        alert("Url must be valid");
+                    }
+                });
+                $(".fa-hand-point-up").click(function(){
+                    <% if(userPassport){ %>
+                    var div = $(this);
+                    var counter = $(this).parent().find('a').text();
+                    var counterPlus = counter++;
+                    
+                    var firebaseID = $(this).closest('.clip').attr('fbid');
+
+                    $.ajax({
+                        type: 'POST',
+                        // make sure you respect the same origin policy with this url:
+                        // http://en.wikipedia.org/wiki/Same_origin_policy
+                        url: 'https://www.isaiahcreati.com/upvote',
+                        data: { 
+                            fbid: firebaseID,
+                            id: id,
+                            type: "upvote"
+                        },
+                        success: function(msg){
+                            //$(this).attr('voted', "true");
+                            div.parent().find('a').text(counter);
+                            
+                        }
+
+                    });
+                    <% } else { %>
+                        alert("You must be signed in to vote");
+                    <% } %>
+
+                });
+            });
+
+
+        </script>
+        <style>
+            .votes{
+                display: block;
+                position: relative;
+                max-width: 150px;
+                height: 100%;
+                width: 100%;
+                font-size: 1.5rem;
+
+            }
+            .clip {
+                width: 85%;
+                margin:auto;
+                display: flex;
+                padding: 7.5px;
+                background-color: #222;
+                margin-bottom: 10px !important;
+            }
+            .meta-data{
+                display: flex;
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;">
+            <%- include('partials/navbar')%>
+
+            <div class="container-main">
+
+                <div class="container">
+                    <!-- Nav bar wit socials -->
+                    <div class="row">
+                        <div class="col-md">
+                        <div class="navbar">
+                            <div class="d-flex">
+                                <div class="profile-name">
+                                    <h1 class="display-1" style="margin:auto;padding: 0 15px;">Clips</h1>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    
+                    <% if (userPassport) { %>
+                    <div>
+                        <h2>Submit a clip</h2>
+                        <div class="d-flex">
+                            <input id="clipURL" class="form-control form-control-lg" type="text" placeholder="https://clips.twitch.tv/CreatiIsTheBestContentCreator">
+                            <button id="submitClip" style="width: 25%;margin-left: 15px;" type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div> 
+                    
+                    <% } else { %>
+                        <div>
+                            <div style="display: flex;justify-content: start;">
+                                <h2>Submit a clip</h2>
+                                <div class="alert alert-warning" role="alert" style="width: fit-content;margin-left: 25px;">
+                                    You can only submit a clip if signed in!
+                                </div>
+                            </div>
+                            
+                            <input class="form-control form-control-lg" type="text" placeholder="https://clips.twitch.tv/CreatiIsTheBestContentCreator"  title="You must be signed in!" readonly>
+                        </div> 
+                    <% } %>
+                    <hr class="my-3"> 
+                    <div class="row">
+                        <div class="d-flex" style="width: 100%;flex-direction: column;">
+                            <% for (let i = 0; i < clipList.length; i++) { %>
+                            <div class="clip" fbid="<%= clipList[i].firebaseID %>">
+                                <!-- Find the parent div with class ID = Clip and use something like $( "div" ).data( "fbid" );
+                                    We are going to use this to update the data associated with said clip
+                                -->
+                                <div class="meta-data">
+                                    <div class="votes">
+                                        <div>
+                                            <i style="cursor:pointer;" class="far fa-hand-point-up fa-fw"></i>
+                                            <a><%= clipList[i].upvotes %></a>
+                                        </div>
+                                        <div>
+                                            <i style="cursor: pointer;" class="far fa-hand-point-down fa-fw"></i>
+                                            <a><%= clipList[i].downvotes %></a>
+                                        </div>
+                                        <a style="font-size: .8em;">Submitted by <strong><%= clipList[i].submittedBy %></strong> <small><%- new Date(clipList[i].date).toUTCString() %></small></a>
+                                    </div>                                
+                                </div>
+                                <div class="embed-responsive embed-responsive-16by9" style="overflow:unset !important;">
+                                    <iframe
+                                        /*src="https://clips.twitch.tv/embed?clip=<%= clipList[i].clipID %>&autoplay=false"*/
+                                        height="100%" width="100%"
+                                        frameborder="0" scrolling="no"
+                                        allowfullscreen="true" autoplay=false>
+                                    </iframe>
+                                </div>
+    
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

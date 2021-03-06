@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+   <head>
+        <%- include('partials/header') %>
+        <script src="https://cdn.jsdelivr.net/npm/json-formatter-js@2.3.4/dist/json-formatter.esm.js"></script>
+   </head>
+   <body>
+      <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+         
+        <%- include('partials/navbar')%>
+        <script>
+
+            console.log(<%- JSON.stringify(userPassport) %>);
+            console.log(<%- JSON.stringify(userFromDatabase) %>);
+        </script>
+        
+        <div class="container-main">
+
+            <div class="container">
+                <!-- Nav bar wit socials -->
+                <div class="row">
+                    <div class="col-md">
+                        <div class="d-flex">
+                            <h1 style="margin:auto;" class="display-4">Dashboard</h1>
+                        </div>
+                  </div>
+                </div>
+                <% if(userFromDatabase) { %>
+                    <% if(userFromDatabase['rank'].includes("mod")) { %>
+                    <hr class="my-3">
+                    <div class="row">
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col-md">
+                            <div class="navbar">
+                                <div class="d-flex">
+                                    <div class="profile-image rounded-circle" style="min-width:100px;min-height:100px;background-image:url('<%=userFromDatabase['profile_image']%>');">
+                                    </div>
+                                    <div class="profile-name">
+                                        <h1 style="margin:auto;padding: 0 15px;" class="display-4">Hey! <%=userFromDatabase['display_name']%></h1>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <hr class="my-3">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-flex wrap">
+                                <div class="w-100 p-3" >
+                                    <!-- Send TTS Message -->
+                                    <div class="w-100 p-3" >
+
+                                        <% if(userPassport) { %>
+                                            <h5 class="title-underline-blue" >⚙️ Send TTS Message</h5>
+                                            <div class="m-1 p-2">
+                                                <div class="d-flex w-100">
+                                                    <input type="text" id="admin_tts_user" class="w-25 form-control" placeholder="username">
+                                                    <input type="text" id="admin_tts_message" class="w-75 mx-2 form-control" placeholder="message">
+                                                </div>
+                                                <button type="button" class="p-2 my-3 btn btn-primary" id="send-tts-msg"> Send TTS Message</button>
+                                            </div>
+                                            <script>
+                                                $("#send-tts-msg").click(function () { 
+                                                    $(this).prop('disabled', true);
+
+                                                    setTimeout(()=>{
+                                                        $(this).prop('disabled', false);   
+                                                    }, 500);
+
+
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        // make sure you respect the same origin policy with this url:
+                                                        // http://en.wikipedia.org/wiki/Same_origin_policy
+                                                        url: '/admin/send-tts',
+                                                        data: {
+                                                            admin_tts_user: $("#admin_tts_user")[0].value,
+                                                            admin_tts_message: $("#admin_tts_message")[0].value
+                                                        },
+                                                        
+                                                        success: function(msg){
+                                                            console.log("Message Sent")
+                                                            
+                                                        },
+
+                                                        error: function(msg){
+                                                            console.log(msg);
+                                                        }
+
+                                                    });
+                                                });
+
+                                            </script>
+                                        <% } %>
+                                        
+                                    </div>
+                                    <!-- Get Point Handler Data -->
+                                    <div class="w-100 p-3" >
+                                        <% if(adminWsData) { %>
+                                            <h5 class="title-underline-blue" >⚙️ Get Handler Data</h5>
+                                            <div class="m-1 p-2">
+                                                <div class="d-flex w-100">
+                                                    <button type="button" class="w-25 mx-2 btn btn-primary" id="get-point-handler"> Get Handler Data</button>
+                                                    <input type="text" id="admin_point_id_input" class="w-75 form-control" placeholder="Handler ID (ex. 15)">
+                                                </div>
+                                                <div id="handler-data-output" class="p-2 m-2 text-black" style="background-color: white;">
+
+                                                </div>
+                                            </div>
+                                            <script>
+                                                $("#get-point-handler").click(function () { 
+                                                    $(this).prop('disabled', true);
+
+                                                    setTimeout(()=>{
+                                                        $(this).prop('disabled', false);   
+                                                    }, 500);
+
+
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        // make sure you respect the same origin policy with this url:
+                                                        // http://en.wikipedia.org/wiki/Same_origin_policy
+                                                        url: '/admin/get-point-handler',
+                                                        data: {
+                                                            admin_handler_id: $("#admin_point_id_input")[0].value
+                                                        },
+                                                        
+                                                        success: function(msg){
+                                                            console.log(msg);
+                                                            //console.log(`Requested Data for Handler ${$("#admin_point_id_input")[0].value}`)
+                                                            $("#handler-data-output").html(JSON.stringify(msg))
+                                                        },
+
+                                                        error: function(msg){
+                                                            console.log(msg);
+                                                            $("#handler-data-output").html(msg.responseText)
+                                                        }
+
+                                                    });
+                                                });
+
+                                            </script>
+                                        <% } %>
+                                        
+                                    </div>
+                                    <div class="w-100 p-3" >
+
+                                        <% if(adminWsData) { %>
+                                        <script>console.log(<%-adminWsData["currentPointHandlers"].joinedChannels%>)</script>
+                                        <div class="w-100 p-3" >
+                                            <div>
+                                                <div>Point Handlers: <% adminWsData["currentPointHandlers"].length %></div>
+                                                <div>Chat Handlers: <% adminWsData["currentChatHandlers"].length %></div>
+                                                <div>Listener Count: <% adminWsData["currentListenerCount"] %></div>
+                                                
+                                            </div>
+                                            <div>
+                                                <div class="m-2 p-2">
+                                                    <% adminWsData["currentPointHandlers"] %>
+                                                   
+                                                </div>
+                                                <div class="m-2 p-2">
+                                                    <% adminWsData["currentChatHandlers"] %>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                            
+                                        <% } %>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <% } else { %>
+                        <div>
+                            <h1>ERROR!</h1>
+                            <br>
+                            <p>You must be an admin in to see this page!</p>
+                            <small>dummy</small>
+                        </div>
+                    <% } %>
+                <% } %>
+               <hr class="my-2">
+               <div class="row">
+                  <div class="col-md">
+                     <div class="d-flex wrap">
+
+                        <!-- Footer -->
+                        <%- include('partials/footer')%>
+                        
+                     </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- chat right side container 
+        <div class="chat-container ui-widget-content">
+            <div class="resizable" style="height:100%;width:inherit;">
+                <iframe title="IsaiahCreati Twitch Chat" frameborder="0" scrolling="no" id="chat_embed" src="https://www.twitch.tv/embed/isaiahcreati/chat?darkpopout&parent=www.isaiahcreati.com" height="100%" width="100%">
+                </iframe>
+            </div>
+         </div>
+        -->
+         
+         
+      </div>
+    <!-- Hidden Template -->
+    <div id="soundTemplate" style="display:none;" > 
+        <div style="display:flex; flex-direction:column;" >
+            <!-- for loop this bihh for each sound-->
+            <div style="display: flex;">
+                <button type="button" id="sound-delete-btn" class="btn btn-danger" style="width: 35px;height: 35px;border-radius: 50%;margin: auto;">X</button>
+                <div class="form-group setting-item">
+                    <input type="text" class="form-control" id="{sound-name}" value="" required>
+                </div>
+                <div class="form-group setting-item">
+                    <input type="text" class="form-control" id="{sound-url}" value="" required>
+                </div>
+                <div class="form-group setting-item">
+                    <input type="range" class="custom-range custom-slider" min="0" max="100" step="1" id="sound-volume">
+                </div>
+                <div style="width: 35px;"></div>
+            </div>
+        </div>
+    </div>
+
+      </div>
+   </body>
+   <footer>
+   </footer>
+</html>

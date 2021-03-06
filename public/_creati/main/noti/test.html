@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/assests/notifications/css/main.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+        <link rel="stylesheet" href="https://ricostacruz.com/jquery.transit/jquery.transit.min.js">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+
+        <script src="functions.js"></script>
+        
+
+        <title>Creati Channel Points Notifications</title>
+
+
+        <script>
+            const queryString = window.location.search;
+
+            const urlParams = new URLSearchParams(queryString);
+
+            var max_items;
+            if(urlParams.has('max_items')){
+                max_items = parseInt(urlParams.get('max_items')) + 1;
+            } else{
+                max_items = 6;
+            }
+
+
+            $(function () {
+                var socket = io('/notifications');
+                console.log(socket);
+
+                socket.on('server alert', function(msg){
+                  var title = msg[0];
+                  var image = msg[1];
+                  var cost = msg[2];
+                  var username = msg[3];
+                  if(typeof msg[4] !== undefined){
+                    var input = msg[4];
+                    feed(title, image, cost, username, input);
+                  } else {
+                    feed(title, image, cost, username);
+                    
+
+                  }
+                  console.log(msg);
+                });
+
+                socket.on('server alert bits', function(msg){
+                  var username = msg[0];
+                  var bits = msg[1];
+                  var message  = msg[2];
+                  redeem_old_bits(username, bits, message);
+                  console.log(msg);
+                });
+
+            });
+
+
+
+            function feed(name, image, cost, username){
+
+                console.log($(".root")[0].children.length, max_items); 
+                //Because we have that one div to push to the bottom, length will be +1 (accounting for the <div></div>)
+                if($(".root")[0].children.length >= max_items){
+                    $($(".root")[0].children[1]).remove();
+                    console.log("OVER 5");
+                }
+                
+                /*
+                var username = "IsaiahCreati";
+                var image = "https://isaiahcreati.com/assests/notifications/gifs/skeleton.gif";
+                var cost = 500;
+                var name = "Skeleton";
+                */
+
+                // template to use
+                //var template = document.querySelector('#template');
+
+                var template = $("#template").clone()[0];
+                
+                //username = username.charAt(0).toUpperCase() + username.substring(1);
+                var usernameSpan = "<span id='usernameSpan'>" + username +  "</span>";
+                var costSpan     = "<span id='costSpan'>" + cost +"</span>";
+                var NameSpan  = "<span id='mobNameSpan'>" + name +"</span>";
+
+                
+                
+                //create the notification from template
+                //console.log($(template).find("#text")[0]);
+                $($(template).find("#text")[0]).html(
+                usernameSpan
+                + "<br>"
+                + NameSpan
+                + "\x20"
+                + costSpan);
+
+                $($(template).find(".image")[0]).css("background-image", 'url("' + image + '")');
+                
+                //add to root
+                $(".root").queue(function() {
+                    $(".root").append(template);
+
+                    $(".root").dequeue();
+                });
+                $(template).animate({left: '0'}, "slow");
+                $(template).delay(10000).queue( function() {
+                    $(this).removeClass("slideInRight");
+                    $(this).delay(500).addClass("fadeOut");
+                });
+
+            };
+
+        </script>
+        <style>
+            .image{
+                background-size: cover;
+                width: 50px;
+                height: 50px;
+                min-width: 50px;
+            }
+            #text{
+                font-family: 'Montserrat', sans-serif;
+                text-align: right;
+                margin: auto 0 auto auto;
+            }
+            .root:first-child{
+                margin-top: auto;
+            }
+            .root {
+                display: flex;
+                align-items: flex-end;
+                justify-content: right;
+                width: 100%;
+                flex-direction: column;
+                height: 100vh;
+                flex-wrap: wrap;
+                vertical-align: text-top;
+
+            }
+            .div {
+                display: flex;
+                height: 50px;
+                position: relative;
+                align-self: flex-end;
+                margin: 0 auto 0 auto;
+                left: 0;
+                margin: 2.5px 15px 2.5px auto;
+                padding: 2.5px;
+                width: auto;
+            }
+            #mobNameSpan{
+                font-size: 1em;
+                color: #fff;
+            }
+            #usernameSpan{
+                font-size: 1.25em;
+            }
+            #costSpan{
+                font-size: 1em;
+                color: #ffd700
+            }
+        </style>
+    </head>
+    <body>
+        <div style="display: none;">
+            <div id="template" class="div animated slideInRight">
+
+                <div class="contents">
+                    <a id="text">
+
+                    </a>
+                </div>
+
+                <div class="image"></div>
+            </div>
+        </div>
+
+        <div class="root">    
+            <div style="margin-top:auto"></div> <!-- this is so they all float to bottom and append from bottom to top-->
+        </div>
+        
+    </body>
+</html>

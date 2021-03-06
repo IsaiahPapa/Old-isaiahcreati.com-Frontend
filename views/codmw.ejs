@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <%- include('partials/header') %>
+
+        <script>
+
+            $(function () {
+                
+                var socket = io("/notifications");
+
+                <% if(userPassport) {%>
+                    var user = "<%= userPassport.data[0].display_name %>";
+                    var id = "<%= userPassport.data[0].id %>";
+                <% } else { %>
+                    var user = null;
+                <% } %>
+
+            });
+
+
+        </script>
+        <style>
+            .votes{
+                display: block;
+                position: relative;
+                max-width: 150px;
+                height: 100%;
+                width: 100%;
+                font-size: 1.5rem;
+
+            }
+            .item {
+                width: 100%;
+                margin:auto;
+                display: flex;
+                padding: 7.5px;
+                background-color: #222;
+                margin-bottom: 10px !important;
+            }
+            .meta-data{
+                display: flex;
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+            .cover-image{
+                position: absolute;
+                width:100%;
+                height:100%;
+                z-index: -1;
+                background-size: cover;
+                filter: blur(5px);
+
+            }
+            .splash{
+                position: relative;
+                overflow: hidden;
+                display: flex;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+            <%- include('partials/navbar')%>
+
+            <div class="container-main">
+
+                <div class="container">
+                    <!-- Nav bar wit socials -->
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-flex">
+                                <div class="splash" >
+                                    <h1 class="display-3" style="text-shadow: 0px 0px 7px #000000;margin:auto;padding: 2.5vw 2.5vh;">Call of Duty: Modern Warfare 2019 Stuff</h1>
+                                    <div class="cover-image" style="background-image: url('https://cdn.images.express.co.uk/img/dynamic/143/590x/Call-of-Duty-Modern-Warfare-1250007.jpg');"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-3">           
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-flex" style="width: 100%;flex-direction: column;">
+                                <a class="item" href="codmw19/modern-warfare-random-weapon-generator" style="width:100%;display: flex; background-image: url("");">
+                                    <h3>Random Gun & Attachment Generator</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                  <%- include('partials/footer')%>
+                </div>
+                
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Isaiah Creati's Custom Point Rewards" />
+        <meta name="twitter:description" content="Custom Twitch Channel Point rewards for Twitch Affiliates and Partners" />
+        <meta name="twitter:image" content="https://static-cdn.jtvnw.net/jtv_user_pictures/89fdf9b7-6827-42ac-964f-7529781a2967-profile_image-300x300.png" />
+        <%- include('partials/header') %>
+
+    </head>
+    <body>
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+            <%- include('partials/navbar')%>
+            <div style="display: flex;flex-flow: row;width: 100%;height:100%; height:calc(100% - 65px);">
+                <div class="container-main">
+                    
+                    <div class="container">
+                        <!-- Nav bar wit socials -->
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="navbar-blog" style="background-size: cover;background-position: center;background-color: rgb(145, 70, 255);background-image: linear-gradient(to bottom, rgb(145, 70, 255) 0%, rgba(145, 70, 255, 0.66) 100%), url(https://i.imgur.com/EF7QGTC.png);" >
+                                    <div class="d-flex">
+                                        <div class="profile-name">
+                                            <span style="font-size: 3.5em; color: #fff;">
+                                                <i class="fab fa-twitch"></i>
+                                            </span>
+                                            <div>
+                                                <h1 class="display-4" style="margin:auto;padding: 0 15px;">Custom Twitch Channel Points</h1>
+                                                <h2 class="ml-5 display-5">-> Getting Started</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin: auto;">
+                            <div>
+                                <h2 style="margin-top:1.5em;" class="title-underline-blue">Custom Coded Twitch Channel Points</h2>
+                            </div>
+                            <div class="m-1 p-2">
+                                <p class="paragraph-info">
+                                    I originally made this site for my viewers to access stream resources as I started to juice StreamElements and Streamlabs to their full extent.
+                                    After raiding, hosting, and chatting with people inside the Twitch community, and then waiting for StreamElements or Streamlabs to create a system I got tired. I took it into my own hands.
+                                    I created system that allows other Twitch streamers to hook up Channel Points with Text-to-Speech, Custom Sounds, Notifications, and more (coming soon).
+                                    <br><br>
+                                    If you are looking to set up Text to Speech or custom sounds with your Twitch Channel Points redeemables, sign in with Twitch in the top right.
+                                    It will ask you to authenticate with your Twitch account (this allows me to access your Channel Point rewards, otherwise im hopeless), click your profile image on the top right, then click the Dashboard button (or click <a href="/dashboard" target="_blank">here</a>), and begin setting up your rewards!.
+                                    <br><br>  
+                                    If you need help, ask on Twitter <a href="https://twitter.com/IsaiahCreati" target="_blank">@isaiahcreati</a> or message me in my discord server (!ccd in my Twitch chat).
+                                </p>
+                            </div>
+                        
+                            <h2 class="title-underline-blue" id="getting-started">Getting Started!</h2>
+                            <div class="m-1 p-2">
+                                <p class="paragraph-info">
+                                    Before we get started, you will want to go <a href="https://dashboard.twitch.tv/community/channel-points">here</a> and create a new Channel Point reward. You will want to make one called "Text-To-Speech".
+                                    <br>
+                                    <b>NOTE: </b>Make sure "Require Viewer to Enter Text" is checked in the Channel Point Reward Creation Menu, and then you are ready to start.
+                                    <bR>
+                                    <!-- <span class="text-warning"><b>WARNING:</b> You <b>MUST</b> create a new channel point reward. You cannot bind/choose a Default Reward for any of the features.</span> -->
+                                    <h3 class="cp-inst">• Step 1: Press a Button</h3>
+                                    <p class="m-1 p-2 paragraph-info">
+                                        Make your way to the <a href="/dashboard" target="_blank">Dashboard</a>. On the left side of the Dashboard, press the blue "Join Channel" button.
+                                        <img alt="Gif tutorial showing you what the 'Save Settings' check box looks like and saving it" src="/page-assets/channel-points/gif/join_channel.gif" />
+                                    </p>
+                                    
+                                    <h3 class="cp-inst">• Step 2: Bind Rewards</h3>
+                                    <p class="m-1 p-2 paragraph-info">
+                                        After pressing the "Join Channel" button, the bot should join your channel. <b class="alert-danger">DONT BAN THE BOT.</b> Now you want to find the "Bind Reward" buttons. There is going to be one button per "Module". 
+                                        <br><br>
+                                        Go ahead and press the "Bind TTS" button (press the one you want). A dialog will appear. 
+                                        Press the "Bind" button and then three little loading dots will appear. These will go away once you redeem a request. 
+                                        <br><br>
+                                        So, go over to YOUR chat on the right hand side of the <a href="/dashboard" target="_blank">dashboard</a> page, choose the item you want to bind to Text to Speech, and then send the message in chat. 
+                                        If it was a success, the three loading dots should have disappeared and there should be a SUCCESS message on the button. You can now close this box. If you want to bind Sounds, just follow the process again. 
+                                        I tried to make it as seamless as possible. 
+                                        <br>
+                                        <img class="img-fluid p-1" alt="Gif tutorial on how to bind your Twitch Channel Point reward to the Text to Speech or Sounds" src="/page-assets/channel-points/gif/binding.gif" />
+                                    </p>
+
+                                    <h3 class="cp-inst">• Step 3: Add URL to OSB Browser Source</h3>
+                                    <p class="m-1 p-2 paragraph-info">
+                                        Once you have bound your rewards, you will now move to <a href="https://obsproject.com/" rel="noopener noreferrer" target="_blank">OBS (Open Broadcaster Software)</a>. On the dashboard, there will be a blurry line of text, that is your Creati Notification URL. 
+                                        <br>
+                                        Create a new New Browser source in OBS, resize it to whatever you want (I would size it to your OBS Output Res. I am going to be adding a "Recent Redeems" feed later).
+                                        <br><br>
+
+                                        <img class="img-emoji" alt="YEP image" src="https://cdn.frankerfacez.com/emoticon/418189/4" /><span class="text-emoji">👍</span>You are done!
+
+                                        <img class="img-fluid p-1" alt="Gif tutorial showing how to add the URL to an OBS browser source." src="/page-assets/channel-points/gif/obs.gif" />
+                                    </p>
+
+                                </p>
+
+                                
+                            </div>
+                            <h2 class="title-underline-blue">What are Channel Points?</h2>
+                            <div class="m-1 p-2">
+                                <p class="paragraph-info">
+                                    Channel Points allow viewers to watch Twitch streams and gain points that they can spend in that respective Twitch channel. You can read more about Twitch's Channel Points
+                                    <a href="https://help.twitch.tv/s/article/channel-points-guide?language=en_US" target="_blank">Here</a>.
+                                </p>
+                            </div>
+                            <!--
+                            <h2 class="title-underline-blue" id="aws">Don't like how Brian sounds?</h2>
+                            <div class="m-1 p-2 paragraph-info">
+                                <p>
+                                    There are two systems behind the scenes that are used to generate a Text-to-Speech method. The first one is free and requires no setup, but the voices sound... <em>strange</em>.
+                                    The second one is free for a year <strong>IF</strong> you meet the requirements after that charges may apply, requires you to create an account on AWS, but the voices are like the ones you are used to.
+                                    If you want to use this method, follow the steps below then message me when you have your keys. I am working on a person-to-person basis, so sorry if I take a while.
+                                </p>
+                                <p>To synthesize a TTS/Text-to-Speech message, we must use an engine. <a href="https://aws.amazon.com/free/" rel="noopener noreferrer" target="_blank">Amazon Web Services (AWS) Free Tier</a> offers a service called Amazon Polly. We will use the Amazon Polly engine to synthesize our messages. You just need to provide me with two keys so I can generate the messages.</p>
+                                <h4 style="color: white;">Annotations and Agreements: </h4>
+                                <ol type="I">
+                                    <li>
+                                        <p>
+                                            If you use this service, You agree to not hold isaiahcreati.com (Business/Website) or Isaiah Creati (Person(s)/Alias) accountable for Amazon Web Service (AWS) and/or Amazon Polly charges.
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            AWS Free Tier is free for 12 months, with a 5 Million Characters/Month limit for non-neural voices, and 1 Million Characters/Month limit for <strong>Neural</strong>. These could also change at any time so please 
+                                            read into
+                                            <a href="https://aws.amazon.com/polly/pricing/#:~:text=AWS%20Polly%20Pricing%20Details&text=Amazon%20Polly's%20Standard%20voices%20are,when%20outside%20the%20free%20tier)." rel="noopener noreferrer" target="_blank">Amazon Polly</a>
+                                            and
+                                            <a href="https://aws.amazon.com/pricing/" rel="noopener noreferrer" target="_blank" >AWS pricing</a>.
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Once you pass AWS/Amazon Polly's free tier limits, charges will apply.
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            In December of 2019, and January of 2020, I streamed almost every day for ~ 4-6 hours with a constant stream of TTS spam. I only used ~105,100 Chars in December, and ~129,500 Chars in Jan
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            You can <a href="http://localhost/channel-points/tts-voices" target="_blank">View the TTS Voice List</a> to see what voices are <strong>Neural</strong>.
+                                        </p>
+                                    </li>
+                                </ol>
+                                <h4 style="color: white;">Setup AWS : </h4>
+                                <ol>
+                                    <li>
+                                        Create an <a href="https://aws.amazon.com/free/" rel="noopener noreferrer" target="_blank">Amazon Web Services (AWS) Free Tier</a> account.
+                                    </li>
+                                    <li>
+                                        Go to <a href="https://console.aws.amazon.com/iam/home?#/users" rel="noopener noreferrer" target="_blank">Here</a> and then "Add User" up at the top
+                                    </li>
+                                    <li>
+                                        Go to the next page and select "Attach existing policies directly" and search for "polly".
+                                    </li>
+                                    <li>
+                                        Select "AmazonPollyFullAccess" permission and then finish creating user. If asked, No tags are needed.
+                                    </li>
+                                    <li>
+                                        You need to have your "Access key ID" and "Secret access key" saved or ready, then send Mr. Isaiah Creati a message on Discord, or Twitter.
+                                        There are some backend things I have to do to get it up to snuff.
+                                    </li>
+                                    
+                                    <li>
+                                        Enter the "Access key ID" and "Secret access key" from AWS into the TTS fields in <a href="/dashboard" target="_blank">dashboard</a>.  
+                                        <img src="/page-assets/channel-points/png/aws_keys.png" alt="Text entry on the dashboard with Access Key ID and Secret Access Key">
+                                    </li>
+                                
+                                </ol>
+                            </div>    
+                            --> 
+                            
+                        </div>
+                        <hr class="my-3"> 
+                        <div class="row">
+                            <div class="d-flex" style="width: 100%;flex-direction: column;">
+                                
+                            </div>
+                        </div>\
+                        <!-- Footer -->
+                        <%- include('partials/footer')%>
+                    </div>
+                </div>
+                <!-- chat right side container -->
+                <div class="chat-container ui-widget-content">
+                    <div class="resizable" style="height:100%;width:inherit;display: flex;flex-flow: column;">
+                    <div class="embed-responsive embed-responsive-16by9" style="overflow:unset !important;">
+                            
+                        <!--src="https://player.twitch.tv/?channel=isaiahcreati&parent=www.isaiahcreati.com"-->
+                        <iframe title="IsaiahCreati Twitch Video Stream" class="embed-responsive-item" src="https://player.twitch.tv/?channel=isaiahcreati&parent=localhost&parent=www.isaiahcreati.com" allowfullscreen="" scrolling="no" allow="autoplay; fullscreen" style="width: 100%; height: 100%;"></iframe>
+                        
+                    </div>
+                    <!---->
+                    <iframe title="IsaiahCreati Twitch Chat" frameborder="0" scrolling="no" id="chat_embed" src="https://www.twitch.tv/embed/isaiahcreati/chat?darkpopout&parent=localhost&parent=www.isaiahcreati.com"style="width: 100%; height: 100%;">
+                    </iframe>
+                    
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

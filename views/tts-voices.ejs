@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <%- include('partials/header') %>
+        <script>
+            $(document).ready(function(){
+              $(".form-control").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".table .tr-voice").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+              });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+            <%- include('partials/navbar')%>
+
+            <div class="container-main">
+
+                <div class="container">
+                    <!-- Nav bar wit socials -->
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="navbar-blog" style="background-color: #9146FF;" >
+                                <div class="d-flex">
+                                    <div class="profile-name">
+                                        <span style="font-size: 3.5em; color: #fff;">
+                                            <i class="fab fa-twitch"></i>
+                                        </span>
+                                        <div>
+                                            <h1 class="display-4" style="margin:auto;padding: 0 15px;">Twitch Channel Points</h1>
+                                            <h2 class="ml-5 display-5">-> TTS Voices</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin: auto;">
+                     <div>
+                         <h2 style="margin-top:1.5em;" class="title-underline-blue">Info</h2>
+                     </div>
+                     <div class="m-1 p-2">
+                         <p class="paragraph-info">
+                           Voices with a "<i class="fas fa-star" style="color: #FFD700;" aria-hidden="true"></i>" in the row are for <span style="color: #FFD700;">Supporters</span> only.
+                           You can read into how to become a <span style="color: #FFD700;">Supporter</span> and what perks they have <a href="/donate" target="_blank">HERE on the Donate page</a>.
+                           <br>
+                           Voices with the word "Neural" in the row are Neural Text-to-Speech Messages. Read more about neural TTS messages pricing on <a href="https://aws.amazon.com/polly/pricing/#:~:text=Amazon%20Polly's%20Neural%20voices%20are,when%20outside%20the%20free%20tier)."  target="_blank">AWS's website</a>.
+                         </p>
+                     </div>
+                    <div style="margin: auto;">
+                        <div>
+                            <h2 style="margin-top:1.5em;" class="title-underline-blue">Voices for Text to Speech</h2>
+                        </div>
+                        <div class="m-1 p-2">
+                            <form class="form-inline d-flex my-2">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                                <input class="form-control form-control-sm w-50 ml-2" type="text" placeholder="Search"
+                                aria-label="Search">
+                            </form>
+                            
+                            <table class="table table-hover table-dark">
+                                 <thead>
+                                  <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Language</th>
+                                    <th scope="col">Demo</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col"></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(let [key, value] of Object.entries(creati["voices"])) { %>
+                                    <tr class="tr-voice">
+                                       <td>
+                                          <% if(value["required_role"] === "supporter"){ %>
+                                             <i class="fas fa-star" style="color: #FFD700;" aria-hidden="true"></i>
+                                          <% } %>
+                                          </td>
+                                       <td><%= value["name"] %></td>
+                                       <td><%= value["language"] %></td>
+                                       
+                                       <td style="padding: 5px;">
+                                            <audio style="height: 40px;" controls preload="none">
+                                                <source src="/page-assets/voices/mp3/<%= value["name"] %>.mp3" type="audio/mp3" >
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </td>
+                                        <td><%= value["gender"] %></td>
+                                        <td>
+                                             <% if(value["neural"] === "Yes"){%>
+                                             Neural
+                                             <% } %>
+                                       </td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                            
+                    </div>
+                    <hr class="my-3"> 
+                    <div class="row">
+                        <div class="d-flex" style="width: 100%;flex-direction: column;">
+                            
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <%- include('partials/footer')%>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

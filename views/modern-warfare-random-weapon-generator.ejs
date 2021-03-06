@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <%- include('partials/header') %>
+        <script src="/random-weapon/data-raw.js"></script>
+        <script src="/random-weapon/random-weapon-raw.js"></script>
+        <script>
+            $(function(){
+
+                $( "button" ).click(function() {
+                    var aElement = $("table").children('tbody').children('tr').children("td").children("a");
+                    console.log(aElement.length);
+                    
+                    for(var i = 0; i < aElement.length; i++){
+                        if(aElement[i].text != ""){
+                            //aElement[i].parent("tr").css("opacity", ".2");
+                            $(aElement[i]).parent("td").parent().css("opacity", "1");
+                        } else{
+                            $(aElement[i]).parent("td").parent().css("opacity", "0.2");
+                        }                    
+                    }
+
+                });
+            });
+
+        </script>
+        <style>
+            .meta-data{
+                display: flex;
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+            .table-parent{
+                padding:10px;
+                width: 50%;
+            }
+            th {
+                text-align: center;
+                width: 30%;
+            }
+            td{
+                width: 60%;
+            }
+            tr{
+                height: 50px;
+            }
+            .table-dark{
+                background-color: rgba(255,255,255,.05);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+            <%- include('partials/navbar')%>
+
+            <div class="container-main">
+
+                <div class="container">
+                    <!-- Nav bar wit socials -->
+                    <div class="row">
+                        <div class="col-md">
+                        <div class="navbar">
+                            <div class="d-flex">
+                                <div class="profile-name meta-data">
+                                    <h1 class="display-4" style="margin:auto;padding: 0 15px;">Modern Warfare Random Generator</h1>
+                                    <div class="navbar">
+                                        <p>Random Primary Gun with Attachments, Secondary Weapon, Perk, and Equipment generator</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div> 
+                    <hr class="my-3"> 
+                    <div class="row">
+                        <div class="d-flex" style="width: 100%;flex-wrap: wrap;">
+                            <button style="height: 50px;"  type="button" class="btn btn-primary btn-lg btn-block" onclick="randomPrimaryGunAndAttachemnts(); randomSecondaryGunAndAttachemnts(); randomPerk(); randomEquipment()">
+                                Random ALL
+                            </button>
+                            <!-- RANDOM PRIMARY GUN -->
+                            <div class="table-parent">
+                                <table class="table table-striped table-dark">
+                                    <tbody>
+                                        <h3>Primary</h3>
+                                        <tr>
+                                            <th>Weapon</th>
+                                                <td><h4 id="gunName-primary">-</h4> with <h6><a id="attachmentAmount-primary">x</a> attachments</h6></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Muzzle</th>
+                                                <td><a id="muzzle-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Barrel</th>
+                                                <td><a id="barrel-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Laser</th>
+                                                <td><a id="laser-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Optic</th>
+                                                <td><a id="optic-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Stock</th>
+                                                <td><a id="stock-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Under Barrel</th>
+                                                <td><a id="underbarrel-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ammo</th>
+                                                <td><a id="ammo-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rear Grip</th>
+                                                <td ><a id="reargrip-primary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Perk</th>
+                                                <td><a id="perk-primary">-</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button style="height: 50px;"  type="button" class="btn btn-primary btn-lg btn-block" onclick="randomPrimaryGunAndAttachemnts()">
+                                    Random Primary
+                                </button>
+                            </div>
+
+                            <!-- RANDOM SECONDARY GUN -->
+
+                            <div class="table-parent">
+                                <table class="table table-striped table-dark">
+                                    <tbody>
+                                        <h3>Secondary</h3>
+                                        <tr>
+                                            <th>Weapon</th>
+                                                <td><h4 id="gunName-secondary">-</h4> with <h6><a id="attachmentAmount-secondary">x</a> attachments</h6></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Muzzle</th>
+                                                <td><a id="muzzle-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Barrel</th>
+                                                <td><a id="barrel-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Laser</th>
+                                                <td><a id="laser-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Optic</th>
+                                                <td><a id="optic-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Stock</th>
+                                                <td><a id="stock-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Trigger Action</th>
+                                                <td><a id="trigger-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ammo</th>
+                                                <td><a id="ammo-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rear Grip</th>
+                                                <td ><a id="reargrip-secondary">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Perk</th>
+                                                <td><a id="perk-secondary">-</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button style="height: 50px;"  type="button" class="btn btn-primary btn-lg btn-block" onclick="randomSecondaryGunAndAttachemnts()">
+                                    Random Secondary
+                                </button>
+                            </div>
+
+                            <!-- RANDOM PERK -->
+
+                            <div class="table-parent">
+                                <table class="table table-striped table-dark">
+                                    <tbody>
+                                        <h3>Perks & Equipment</h3>
+                                        <tr>
+                                            <th>Perk 1</th>
+                                                <td><a id="perk1">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Perk 2</th>
+                                                <td><a id="perk2">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Perk 3</th>
+                                                <td><a id="perk3">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lethal</th>
+                                                <td><a id="lethal">-</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tactical</th>
+                                                <td><a id="tactical">-</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button style="height: 40px;" type="button" class="btn btn-primary btn-sm" onclick="randomPerk()">
+                                Random Perk 
+                                </button>
+                                <button style="height: 40px;" type="button" class="btn btn-primary btn-sm" onclick="randomEquipment()">
+                                Random Equipment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

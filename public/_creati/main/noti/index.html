@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/assests/notifications/css/main.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+        <script src="functions.js"></script>
+        
+
+        <title>Creati Channel Points Notifications</title>
+
+
+        <script>
+
+          $(function () {
+                var socket = io('/notifications');
+                console.log(socket);
+
+                socket.on('server alert', function(msg){
+                  var title = msg[0];
+                  var image = msg[1];
+                  var cost = msg[2];
+                  var username = msg[3];
+                  if(typeof msg[4] !== undefined){
+                    var input = msg[4];
+                    redeem_old(title, image, cost, username, input);
+                  } else {
+                    redeem_old(title, image, cost, username);
+
+                  }
+                  console.log(msg);
+                });
+
+                socket.on('server alert bits', function(msg){
+                  var username = msg[0];
+                  var bits = msg[1];
+                  var message  = msg[2];
+                  redeem_old_bits(username, bits, message);
+                  console.log(msg);
+                });
+
+          });
+        </script>
+
+    </head>
+    <body>
+        <div class="div animated">
+          
+          <div class="image"></div>
+          <div class="contents">
+            <a id="text"></a>
+          </div>
+          <div class="image"></div>
+        </div>
+    </body>
+</html>

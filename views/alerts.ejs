@@ -1,0 +1,320 @@
+<html>
+  <head>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.3/howler.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/276514af8d.js" crossorigin="anonymous"></script>
+        <title>Creati Notifications</title>
+        <style>
+            .emote{
+              position: absolute;
+            }
+            video {
+                display:block;
+                margin: 0 auto auto auto;
+            }
+        </style>
+        <% if (alertKey && userFromDatabase && version) { %>
+        <script>
+            var roomID = "<%- alertKey %>";
+            var version = "<%- version %>";
+            $(function () {
+
+                var apis = {
+                    bttv_global: "https://api.betterttv.net/3/cached/emotes/global",
+                    bttv_channel: "https://api.betterttv.net/3/cached/users/twitch/<%- userFromDatabase["id"] %>",
+                    ffz_channel: "https://api.frankerfacez.com/v1/room/<%- userFromDatabase["login"] %>"
+                }
+
+                var e_full = [];
+
+                $.getJSON(apis["bttv_global"], function( data ) {
+                    format: "json"
+                }).then(function(data) {
+                    for (let [key, value] of Object.entries(data)) {
+                        tempObj = {};
+                        tempObj["name"] = value.code;
+                        tempObj["url"] = "https://cdn.betterttv.net/emote/" + value.id + "/2x";
+                        e_full.push(tempObj);
+                    }
+                    console.log("[Emotes] BTTV Global Emotes Loaded!")
+                }).fail(function() {
+                    console.log("Could not get BTTV Global Emotes. API Down?")
+                });
+
+                $.getJSON(apis["bttv_channel"], function( data ) {
+                    format: "json"
+                }).then(function(data) {
+                    for (let [key, value] of Object.entries(data.sharedEmotes)) {
+                        tempObj = {};
+                        tempObj["name"] = value.code; 
+                        tempObj["url"] = "https://cdn.betterttv.net/emote/" + value.id + "/2x";
+                        e_full.push(tempObj);
+                    }
+                    for (let [key, value] of Object.entries(data.channelEmotes)) {
+                        tempObj = {};
+                        tempObj["name"] = value.code; 
+                        tempObj["url"] = "https://cdn.betterttv.net/emote/" + value.id + "/2x";
+                        e_full.push(tempObj);
+                    }
+                    console.log("[Emotes] BTTV Shared and Channel Emotes Loaded!")
+                }).fail(function() {
+                    console.log("Couldn't get BTTV Channel Emotes. No Emotes?")
+                });
+
+
+                $.getJSON(apis["ffz_channel"], function( data ) {
+                    format: "json"
+                }).then(function(data) {
+                    for (let [key, value] of Object.entries(data.sets[data.room.set].emoticons)) {
+                        tempObj = {};
+                        tempObj["name"] = value.name; 
+                        
+                        if(typeof value.urls[2] === "undefined"){
+                            tempObj["url"] = value.urls[1];
+                        }else{
+                            tempObj["url"] = value.urls[2];
+                        }
+                        e_full.push(tempObj);
+                    }
+                    console.log("[Emotes] FFZ Channel Emotes Loaded!")
+                }).fail(function() {
+                    console.log("Couldn't get FFZ Channel Emotes. No Emotes?")
+                });
+                
+                
+                var socket = io('/notifications', {
+                    'reconnection': true,
+                    'reconnectionDelay': 1000,
+                    'reconnectionDelayMax' : 1000 * 60 * 60,
+                    'reconnectionAttempts': Infinity
+                });
+
+                socket.on('connect', function(){
+                    socket.emit('join', roomID);
+                    console.log("PogChampion! Were In.")
+                });
+
+                var tts;
+                var ttsisPlaying = false;
+                var ttsQueue = [];
+                var tempEmote = [];
+                function check_tts_queue(){
+                    if (ttsQueue.length > 0) {
+                        //On end, is queue, play the newest queue msg then shift that message
+                        play_tts_queue(ttsQueue[0][0], ttsQueue[0][1]);
+                        ttsQueue.shift();
+                    }else{
+                        //Once queue is done, then restart whole process if new msg.
+                        ttsisPlaying = false;
+                    }    
+                }
+                function play_tts_queue(url, vol) {
+                    try{
+                        console.log(url, vol, (vol/100))
+                        tts = new Howl({
+                            src: [url],
+                            format: ["webm", 'mp3'],
+                            volume: (vol/100),
+                            onend: function() {
+                                check_tts_queue();
+                            },
+                            onloaderror: function(id, data){
+                                console.log("Failed to call TTS Api:", data)
+                                check_tts_queue();
+                            },
+                            onplayerror: function(id, data){
+                                console.log("Failed to play TTS message:", data)
+                                check_tts_queue();
+                            }
+                        });   
+                        console.log("TTS Should play");
+                        tts.play();
+                    } catch(e){
+                        console.log(e);
+                    }
+
+                }
+
+                socket.on('play tts', function(msg){
+                    var voice  = msg["voice"];
+                    var volume = msg["volume"];
+                    var input = msg["input"];
+                    var url = "";
+                    console.log(msg);
+                    if(msg["version"] !== version){
+                        window.location.reload(true);
+                    }
+                    if(roomID.length === 36){ //"A UUID is made of up of hex digits  (4 chars each) along with 4 “-” symbols which make its length equal to 36 characters."
+                        url = `https://www.isaiahcreati.com/api/tts/${roomID}?voice=${voice}&text=${encodeURIComponent(input)}`
+                        //url = `http://${location.hostname}/api/tts/${roomID}?voice=${voice}&text=${encodeURIComponent(input)}`
+                        //var url = "https://tts.isaiahcreati.com.com/kappa/v2/speech?voice=" + voice + "&text=" + encodeURIComponent(input);
+                    } else{
+                        console.log(`UUID = ${roomID} Incorrect. Please contact Mr. Creati`);
+                    }                    
+
+                    if(ttsisPlaying){
+                        //Push message to queue if a message is playing
+                        ttsQueue.push([url, volume]);
+
+                    }else{
+                        //Play new msg   if no queue
+                        play_tts_queue(url, volume);
+                        ttsisPlaying = true;
+                    }
+                    
+                });
+
+                socket.on('skip tts', function(msg){ tts.stop(); check_tts_queue(); });
+
+                socket.on('pause tts', function(msg){ tts.pause(); });
+
+                socket.on('resume tts', function(msg){ tts.play(); ttsisPlaying = true; });
+
+                socket.on('play sound', function(settings){
+                    console.log(settings);
+                    var sound = new Howl({
+                            src: [settings["file_url"]],
+                            format: ['mp3'],
+                            volume: (settings["volume"]/100)
+                    });
+
+                    sound.play();
+                });
+                socket.on('showemote', function(emotes){
+
+                    var emoteWidth = 80; 
+                    var emoteHeight = 50;
+
+                    window_Height = window.innerHeight;
+                    window_Width = window.innerWidth;
+
+                    space_y = window_Height - emoteHeight;
+                    space_x = window_Width - emoteWidth;
+
+                    var height = Math.round(Math.random() * space_y);
+                    var width = Math.round(Math.random() * space_x);
+
+                    var time_shown = 5000;
+                    var time_fade = 800;
+                    var time_total = time_fade + time_shown;
+
+                    let rand_id = Math.random().toString(36).substring(7);
+
+                    if(emotes["isTwitch"]){
+
+                        var item = $("<img id='" + rand_id + "' class='emote' style='top:" + height + "; left:" + width + ";' src='" + emotes["url"] + "' />").delay(time_shown).fadeOut(time_fade);
+                        $("#messages").append(item);
+                        item.delay(time_total).fadeOut(function() {
+                            item.remove();
+                        });
+                    
+                    }else if(emotes["isEmoji"]){
+
+                        console.log(emotes["emoji"])
+                        console.log(emotes["emoji"]["emoji"])
+                        console.log(emotes["emoji"]["key"])
+                        var item = $("<span id='" + rand_id + "' class='emote' style='font-size:56px; top:" + height + "; left:" + width + ";'>" + emotes["emoji"]["emoji"] + " </span>").delay(time_shown).fadeOut(time_fade);
+                        $("#messages").append(item);
+                        item.delay(time_total).fadeOut(function() {
+                            item.remove();
+                        });
+
+                    }else{
+                        console.log(emotes["name"]);
+                        for (let [key, value] of Object.entries(e_full)) { //if not in twitch find in FFZ. 
+                            if(emotes["name"].trim() === value.name.trim()){ 
+
+                                var item = $("<img id='" + rand_id + "' class='emote' style='top:" + height + "; left:" + width + ";' src='" + value.url + "' />").delay(time_shown).fadeOut(time_fade);
+                                $("#messages").append(item);
+                                item.delay(time_total).fadeOut(function() {
+                                    item.remove();
+                                });
+
+                                break;
+                            }
+                        }
+                    }
+
+                });
+
+                var vidIsPlaying = false;
+                var vidQueue = [];
+
+                function play_vid_queue(video_settings) {
+
+                    var jqueryVid = $("#video");
+                    var vid = document.getElementById("video");
+
+                    //Set width and height.
+                    //jqueryVid.width(video_settings["display"]["width"]);
+                    //jqueryVid.height(video_settings["display"]["height"]);
+                    jqueryVid.width(video_settings["display"]["scale"] + "%");
+                    jqueryVid.height(video_settings["display"]["scale"] + "%");
+
+                    var x = video_settings["display"]["x"];
+                    var y = video_settings["display"]["y"];
+                    var posX = (x/500)* $(window).width();
+                    var posY = (y/281)* $(window).height();
+
+
+                    jqueryVid.css("transform", `translate(${posX}px, ${posY}px)`);
+
+                    //width: 500px;height: 281px;
+
+                    //Set video src and url in DOM
+                    vid.src = video_settings["file_url"];
+                    vid.volume = (video_settings["volume"]/100);
+                    
+                    jqueryVid.show();
+                    vid.load();
+                    vid.play();
+                    vidIsPlaying = true;
+
+                    vid.onended = function() {
+                        if (vidQueue.length > 0) {
+                            //On end, is queue, play the newest queue msg then shift that message
+                            play_vid_queue(vidQueue[0]);
+                            vidQueue.shift();
+                        }else{
+                            //Once queue is done, then restart whole process if new msg.
+                            vidIsPlaying = false;
+                            jqueryVid.hide();
+                        }
+                    };
+                }
+
+                socket.on('play video', function(video_settings){
+                    console.log(video_settings);
+                    if(!vidIsPlaying){
+                        play_vid_queue(video_settings);
+                    }else{
+                        vidQueue.push(video_settings);
+                    }
+                });
+
+                socket.on('msg', function(msg){
+                    console.log(msg);
+                });
+
+          });
+        </script>
+        <% } %>
+  </head>
+  <body style="margin: unset;">
+      <div style=" width:100%;height:100%;display:flex;">
+        <video id="video" style="display: none;" width="500" height="280">
+            <source src="" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+      </div>
+      <div class="banner-message">
+          <div class="item-container">
+              <div id="messages">
+
+              </div>
+          </div>
+      </div>
+  </body>
+</html>

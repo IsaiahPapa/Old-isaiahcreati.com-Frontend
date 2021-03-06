@@ -1,0 +1,15 @@
+<div id="recent-redeems" >
+    <% for (var i = 0; i < recentRedeems.length; i++) { %>
+        <div class="recent-item">
+            <div>
+                <a><%= recentRedeems[i][0] %></a>
+                redeemed
+                <a><%= recentRedeems[i][1] %></a>
+                for
+                <a class="text-warning"><%= recentRedeems[i][2] %></a>
+                Creati Coin(s)
+            </div>
+            <a class="font-weight-light text-muted"><%= recentRedeems[i][3] %></a>
+        </div>
+    <% } %>
+</div>

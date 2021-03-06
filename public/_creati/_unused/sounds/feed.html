@@ -1,0 +1,92 @@
+<html>
+  <head>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+      <link rel="stylesheet" href="/style.css">
+      <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+      <script src="https://kit.fontawesome.com/276514af8d.js" crossorigin="anonymous"></script>
+      <title>Creati Notifications - Home</title>
+      <script>
+
+          $(function () {
+                var socket = io();
+                //var socket = io('http://192.99.59.63');
+
+                socket.on('send recent_redeems', function(msg){
+                    console.log(msg);
+                    var name  = msg[0];
+                    var title = msg[1];
+                    var cost  = msg[2];
+                    var userinput = msg[3];
+                    $('.item-container').empty();
+                        if(true){
+                            $('.item-container').append('<div class="recent-redeems">'
+                                                        +   '<div style="margin:auto;">'
+                                                        + '<a class="name">' + name + '</a> redeemed '
+                                                        + '<a class="title">' + title + '</a> for '
+                                                        + '<a class="cost">' + cost + '</a> Creati Coins '
+                                                        + '</div>'
+                                                        + '<br>'
+                                                        + '<a class="userinput">' + userinput + '</a>');
+                        }
+                });
+          });
+        </script>
+        <style media="screen">
+            .recent-redeems{
+                width:100%;
+                height:30px;
+                padding:5px;
+                display:grid;
+                margin:auto;
+            }
+            .name{
+                font-size: large;
+            }
+            .title{
+                font-size: large;
+            }
+            .cost{
+                font-size: large;
+            }
+            .userinput{
+                font-size:smaller;
+            }
+
+        </style>
+  </head>
+
+  <body>
+      <div class="Sounds">
+          <table>
+            <tr>
+              <th>Sound ID</th>
+              <th></th>
+            </tr>
+            <tr>
+              <td>stinkey</td>
+              <td>uhhh</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+      </div>
+      <div class="banner-message">
+          <div class="item-container">
+              <!--
+              '<div class="recent-redeems">
+                  <h6>
+                      <a class="name">' + name + '</a> redeemed '
+                      + '<a class="title">' + title + '</a> for '
+                      + '<a class="cost">' + cost + '</a>' Creati Coins'
+                  </h6>
+                  <br>
+                  <span>' + userinput + '</span>');
+              </div>
+              -->
+          </div>
+      </div>
+  </body>
+</html>

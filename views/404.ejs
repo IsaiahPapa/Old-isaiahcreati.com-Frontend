@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+   <head>
+
+      <%- include('partials/header') %>
+  
+   </head>
+   <body>
+      <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+         
+         <%- include('partials/navbar')%>
+
+         <div style="display: flex;flex-flow: row;width: 100%;height:100%; height:calc(100% - 65px);">
+            <div class="container-main">
+
+
+               <div class="container" style="height: 100%;vertical-align: baseline;justify-content: center;display: flex;flex-flow: column;">
+                  <!-- Nav bar wit socials -->
+                  <div class="row">
+                     <div class="col-md">
+                        <div class="navbar">
+                           <div class="d-flex m-auto py-4">
+                              <div class="profile-name">
+                                 <h1 style="margin:auto;" class="display-4">Oops! Page not found!</h1>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Footer -->
+                  <%- include('partials/footer')%>
+               </div>
+            </div>
+         </div>
+         
+      </div>
+
+
+
+      </div>
+   </body>
+</html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <%- include('partials/header') %>
+        <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
+        <script src="https://js.stripe.com/v3/"></script>
+        <style>
+            /**
+            * The CSS shown here will not be introduced in the Quickstart guide, but shows
+            * how you can use CSS to style your Element's container.
+            */
+            .StripeElement {
+            box-sizing: border-box;
+
+            height: 40px;
+
+            padding: 10px 12px;
+
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background-color: white;
+
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+            }
+
+            .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+            }
+
+            .StripeElement--invalid {
+            border-color: #fa755a;
+            }
+
+            .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+            }
+            .btn sspan {
+                background-image: url("/page-assets/premium/pbstripe_white.svg") no-repeat top left;
+                background-size: contain;
+                cursor: pointer;
+                display: inline-block;
+                height: 50px;
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-body d-flex" style="width:100%;height:100%;position: absolute;flex-flow:column;">
+            <%- include('partials/navbar')%>
+
+            <div class="container-main">
+                <div class="container">
+                    <div style="margin: auto;">
+                        <div class="m-1 my-5 p-2">
+                            <div class="paragraph-info">
+                                <p class="display-4">Dear streamers,</p>
+                                <p>I, Isaiah, am a full-time student, streamer, and coder. I&#39;ve come to the decision to make the service a monthy subscription. 
+                                    If you feel the service is worth more than $5, enter in your own monthy price.
+                                </p>
+                                <p>The money will:</p>
+                                <ol type="I">
+                                    <li>Keep development active, and alive.
+                                        <ul>
+                                            <li>Monthly server costs, file hosting, and fees.</li>
+                                        </ul>
+                                    </li>
+                                    <li>Fund future projects.</li>
+                                    <li>Relieve me of pressure/stress.</li>
+                                </ol>
+                                <p>Thank you, <br><br><span style="font-family: 'Bad Script', cursive;font-size: 1.5rem;">Isaiah</span> </p>
+                            </div>
+                        </div>
+                        
+                        <div class="m-1 p-2">
+                            <div class="paragraph-info">
+                                <% if(user_profile !== false && typeof user_profile !== 'undefined') { %>
+                                    <% if(typeof user_profile["twitch"]["broadcaster_type"] !== "undefined") { %>
+                                        <h3 style="text-align:center;">Website Access <strong style="color:gold">$5/Month</strong>.</h3>
+                                        <div class="d-flex">
+                                            <button id="checkout-button" class="btn m-auto btn-lg btn-primary" style="padding-right: 75px;position: relative;">
+                                                <span>Subscribe with</span><svg class="icon" style="position: absolute;"><image xlink:href="/page-assets/premium/sw_white.svg" style="width: 70px;"></image></svg>
+                                            </button>                                             
+                                        </div>
+                                    <% } %>
+                                <% }else{ %>
+                                    <div style="position: relative;">
+                                        <div class="d-flex" style="opacity: .2;display: flex;pointer-events: none;flex-flow: column;">
+                                            <h3 style="text-align:center;opacity: .2;pointer-events: none;">Website Access <strong style="color:gold">$5/Month</strong>.</h3>
+                                            <button id="checkout-button" class="btn m-auto btn-lg btn-primary" style="padding-right: 75px;position: relative;">
+                                                <span>Subscribe with</span><svg class="icon" style="position: absolute;"><image xlink:href="/page-assets/premium/sw_white.svg" style="width: 70px;"></image></svg>
+                                            </button>                                             
+                                        </div>
+                                    <div class="d-flex" style="position: absolute;width: 100%;height: 100%;z-index: 99;top: 0;">
+                                        <div class="m-auto d-flex" style="align-items: center;">                            
+                                            <div class="bg-dark m-1">
+                                                <a href="/auth/twitch" class="text-white p-1" style="display:flex;width: 100%;height: 100%; background-color: #9146FF;">
+                                                    <div style="display: flex;width: 100%;">
+                                                        <span style="margin: auto 0 auto auto;font-size: 2em; color: #fff;padding:5px;">
+                                                        <i class="fab fa-twitch" aria-hidden="true"></i>
+                                                        </span>
+                                                        <span style="margin: auto;text-align:center;padding:5px;">
+                                                        Sign In
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <span> to subscribe</span>
+                                        </div>
+                                    </div></div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <h2 class="title-underline-blue">Benefits</h2>
+                        <div class="m-1 p-2">
+                            <div class="paragraph-info">
+                                <div class="w-100 d-flex m-3" >
+                                    <div class="w-75">
+                                        <h3>
+                                            <span style="border-bottom: 2px solid;">
+                                                <i class="fas fa-star" style="color: #FFD700;"></i>
+                                                Access to Beta Modules
+                                            </span>
+                                        </h3>
+                                        <p>
+                                            With the supporter role, you will be able to access modules early. Each module has the potential to be free for everyone "later".
+                                            I say potentially, because they are either going to be scrapped or implemented. You will be able to use new features that I am working on, before other people.
+                                        </p>
+                                    </div>
+                                    <div class="w-25 p-3">
+                                        <img src="/page-assets/premium/restricted.png" class="img-fluid" alt="Restricted module" />
+                                    </div>
+                                </div>
+                                
+                                <div class="w-100 d-flex m-3" >
+                                    <div class="w-25 p-3" style="background-size: cover;">
+                                        <img src="/page-assets/premium/voices.png" class="img-fluid" alt="Text-to-Speech voice list" />
+                                    </div>
+                                    <div class="w-75">
+                                        <h3>
+                                            <span style="border-bottom: 2px solid;">
+                                                <i class="fas fa-star" style="color: #FFD700;"></i>
+                                                Access to all 62 Voices
+                                            </span>
+                                        </h3>
+                                        <p>
+                                            You will also have have access to all 62 Text-to-Speech voices. 
+                                        </p>
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="w-100 d-flex m-2" style="height: 275px;">
+                                    <div class="w-75">
+                                        <h3>Reward 3</h3>
+                                        <p>
+
+                                        </p>
+                                    </div>
+                                    <div class="w-25">
+                                        <img src="..." class="img-fluid" alt="Responsive image" />
+                                    </div>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <hr class="my-3"> 
+                    <div class="row">
+                        <div class="d-flex" style="width: 100%;flex-direction: column;">
+                            
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <%- include('partials/footer')%>
+                    <% if(user_profile !== false && typeof user_profile !== 'undefined' && typeof user_profile["twitch"]["broadcaster_type"] !== "undefined") { %>
+                    <script type="text/javascript">
+                        // Create an instance of the Stripe object with your publishable API key
+                        var stripe = Stripe('');
+                        var checkoutButton = document.getElementById('checkout-button');
+                
+                        checkoutButton.addEventListener('click', function() {
+                        // Create a new Checkout Session using the server-side endpoint you
+                        // created in step 3.
+                        fetch('/gateway/create-checkout-session', {
+                            method: 'POST',
+                        })
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(session) {
+                            return stripe.redirectToCheckout({ sessionId: session.id });
+                        })
+                        .then(function(result) {
+                            // If `redirectToCheckout` fails due to a browser or network
+                            // error, you should display the localized error message to your
+                            // customer using `error.message`.
+                            if (result.error) {
+                            alert(result.error.message);
+                            }
+                        })
+                        .catch(function(error) {
+                            console.error('Error:', error);
+                        });
+                        });
+                    </script>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

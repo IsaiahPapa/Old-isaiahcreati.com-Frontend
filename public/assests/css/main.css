@@ -1,0 +1,418 @@
+/* ------------- */
+/* Main CSS */
+/* ------------- */
+
+/* width */
+    ::-webkit-scrollbar {
+    width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+.paragraph-info{
+    color: #e4e4e4;
+    line-height: 32px;
+}
+
+.img-emoji{
+    width: 48px;
+    height: 48px;
+    display: inline;
+}
+
+.text-emoji{
+
+    font-size: 32px;
+    display: inline;
+}
+.title-underline-blue{
+    border-bottom: 2px #007bff solid;
+    padding-bottom: 5px;
+}
+body{
+    /*font-family: 'Roboto', sans-serif;*/
+    /*font-family: 'Dosis', sans-serif;*/
+    color: white;
+    background: rgb(28,28,28);
+    background: linear-gradient(90deg, rgba(28,28,28,1) 32%, rgba(24,24,27,1) 78%);
+    background-attachment: fixed;
+}
+h3{
+    padding: 5px;
+    margin: 5px;
+}
+.desc-title{
+    font-weight: 300;
+}
+#twitch-embed{
+    width: 100%;
+    height: 100%;
+}
+#settingsmodal{
+    color: rgb(14, 14, 14) !important;
+}
+.wrap    {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.container{
+    transition-duration: .75s;
+}
+.container-main{
+    width: 100%;
+    overflow-y: scroll;
+}
+.chat-container{
+    display: block;
+    width: 350px;
+    height:100%;
+}
+.svg-container{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    padding: 5px;
+}
+.col-creati{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+    padding: 24px 8px 5px 8px;
+}
+
+.bg-dark{
+    background-color: rgb(28,28,28) !important;
+    color: white !important;
+}
+.navigation-bar{
+    border-bottom: rgb(15,15,15);
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+}
+.nav-item.active{
+    border-bottom: 2px #007bff solid;
+
+}
+
+.nav-item{
+    margin: 0 5px;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin: auto; */
+    width: 100%;
+
+}
+.navbar-blog{
+    margin: 5rem 0px 10px 0px !important;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+}
+.profile-image{
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    background-size: 110%;
+    background-position: center;
+}
+.profile-name{
+    display: flex;
+}
+.socials{
+
+}
+.social-item{
+    color:white;
+    display:flex;
+    margin:5px;
+    padding:5px;
+    flex: 25 1 0%;
+    border-radius: 10px;
+    /*These items are clickable*/
+    cursor: pointer;
+    /* So when we hover and flex it to 50% bias it moves smoothly*/
+    transition-duration: .5s;
+}
+.social-item:hover{
+    flex: 50 1 0%;
+}
+.social-item > a{
+    padding: 5px 10px;
+    color: white;
+    font-weight: 500;
+    font-weight: 500;
+}
+#expandtheatre{
+    padding: 5px;
+    margin: 10px 0;
+    border-color: #c8c8c8;
+    border-width: 1px;
+    display: inline-flex;
+    background-color: #222;
+    border-style: solid;
+    cursor: pointer;
+}
+
+.desc-item{
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+    width: 350px;
+    height: 550px;
+    padding: 10px;
+    margin: 15px 5px;
+    border-radius: 5px;
+    background-color: #161618;
+}
+.desc-item-small{
+    width: 250px !important;
+    height: 550px !important;
+}
+.desc-item-fill{
+    width: 100% !important;
+}
+.scroll-y{
+    overflow-y: auto;
+    height: 85%;
+}
+.recent-item{
+    padding: 5px;
+    margin: 5px;
+    overflow: hidden;
+    background-color: rgba(0,0,0,.25);
+}
+.recent-item div {
+    font-weight: 300;
+}
+.recent-item div a{
+    font-weight: 500;
+}
+
+.svg-inline--fa{
+    width:100%;
+    height: 100%;
+}
+
+.twitter{
+    background-color: #1da1f2;
+}
+.youtube{
+    background-image: linear-gradient(to right, rgba(255, 0, 0, .7), rgba(255, 0, 0, 0.35)), url(/assests/gif/youtube.gif) !important;
+    background-position: 50% 30%;
+    background-size: cover;
+}
+.youtube:hover{
+    background-image: linear-gradient(to right, rgba(255, 0, 0, .35), rgba(255, 0, 0, 0.15)), url(/assests/gif/youtube.gif) !important;
+}
+.twitch{
+    background-image: linear-gradient(to right, rgba(145, 70, 255, 1), rgba(145, 70, 255, 0.45)), url(/assests/gif/twitch.gif) !important;
+    background-position: 50% 30%;
+    background-size: cover;
+}
+.twitch:hover{
+    background-image: linear-gradient(to right, rgba(145, 70, 255, .65), rgba(145, 70, 255, 0.15)), url(/assests/gif/twitch.gif) !important;
+}
+.instagram{
+    /*
+    background: #f09433;
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+    */
+    background-image: linear-gradient(45deg, #f094338f 0%,#e6683c8a 25%,#dc2743b5 50%,#cc2366a1 75%,#bc18885c 100%), url(/assests/img/instagram.jpg) !important;
+    background-position: center;
+    background-size: contain;
+}
+.instagram:hover{
+    background-image: linear-gradient(45deg, #f0943352 0%,#e6683c59 25%,#dc27436e 50%,#cc236673 75%,#bc188859 100%), url(/assests/img/instagram.jpg) !important;
+}
+
+
+.table-dark{
+    background-color: #1b1b1c;
+}
+.table th{
+    padding: .70rem;
+}
+.table-dark th{
+    border-color: #626262;
+}
+@media only screen and (max-width: 1200px) {
+    .chat-container {
+    display: none;
+    }
+    #settingButton{
+        right: 10px !important;
+    }
+}
+
+.cp-inst{
+    font-weight: 300;
+    padding: 2rem 0 0 0;
+    margin: auto 0;
+    border-bottom: #007bff8f 1px solid;
+}
+
+
+
+/*
+*
+*   DASHBOARD.ejs
+*
+*/
+.hidden-url{
+    filter:blur(4px);
+}
+
+.hidden-url:hover{
+    cursor: pointer;
+}
+
+.ui-dialog-titlebar {
+    height: 0;
+    overflow: hidden;
+}
+.setting-title{
+    justify-content: space-between;
+    background-color: white;
+    color: black;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23007bff' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+}
+
+.setting-title-text{
+    /*Same bg color as setting title*/
+    /*Should I look into a CSS engine? */
+    background-color: #fff; 
+    font-weight: 700;
+}
+
+.setting-div{
+    display: flex;
+    flex-direction:column;
+    background-color: rgba(0,0,0,.25);
+    border-radius: 10px;
+    overflow: auto;
+    height: 500px;
+    margin: 10px 0;
+}
+.setting-item{
+    flex-grow: 1;
+
+}
+.resticted-sub-only{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #190808c4;
+}
+.resticted-sub-only div{
+    margin: auto;
+    flex-flow: column;
+    display: flex;
+    background-color: #000000d4;
+}
+.custom-slider{
+    height: 100%;
+    vertical-align: middle;
+}
+#sound-lists{
+    overflow-y: auto;
+}
+.alert{width: 100%;}
+
+@media only screen and (max-width: 768px){
+    .social-item{
+        flex:unset;
+        margin: 5px auto;
+        width: 45%;
+        
+    }
+    .social-item:hover{
+        flex: unset;
+    }
+    .socials{
+        flex-flow: wrap;
+    }
+    #expandtheatre{
+        display: none;
+    }
+    .desc-item-small{
+        width: 100% !important;
+        overflow: hidden;
+    }
+    .display-4{
+        font-size: 40px;
+    }
+}
+
+/* ------------- */
+/* USER DASHBOARD*/
+/* ------------- */
+
+.custom-switch{
+    display: flex;
+    height: 50px;
+    min-height: 50px;
+    font-size: 1.1em;
+}
+
+.custom-control-label{
+    margin: auto 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* ------------- */
+/* Server Status */
+/* ------------- */
+@font-face {
+    font-family:"CraftFont";
+    src: url("/assests/fonts/Minecraftia.ttf") format("truetype");
+}
+#mc_font{
+    font-family: 'CraftFont';
+}
+.blockHeader{
+    height: 64px;
+    width: 100%;
+    background-image: url('/assests/img/server_status/dirt_block.jpg');
+    background-size: 64px;
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.6);
+}
+.blockContent{
+    background-image: url('/assests/img/server_status/dirt_block.jpg');
+    background-size: 64px;
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.8);
+}
+.server-status{
+    display: flex;
+    justify-content: space-evenly;
+    width: 90%;
+    margin: 0 auto;
+    padding: 25px;
+}
+.server-icon{
+    margin:auto;
+    padding: 0 15px 0 0;
+}
